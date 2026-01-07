@@ -8,6 +8,10 @@
   <link rel="icon" type="image/png" sizes="128x128"
         href="https://drive.google.com/thumbnail?id=1T7-S0REmEvmSJbsBxajYQcSb2laWC7Jd&sz=w128-h128">
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
   <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
 <style>
@@ -872,7 +876,7 @@ body.lesson-memo-open #lesson-modal .quran-search-bar{ display:none !important; 
 /* Floating reader toggle (student) */
 .reader-fab{
   position: fixed;
-  bottom: calc(84px + env(safe-area-inset-bottom)); /* above bottom nav */
+  bottom: 84px; /* above bottom nav */
   right: 18px;
   width: 52px;
   height: 52px;
@@ -2978,7 +2982,7 @@ body.koran-mode{
 .floating-audio-player{
   position: fixed;
   right: 16px;
-  bottom: calc(84px + env(safe-area-inset-bottom));
+  bottom: 16px;
   top: auto;
   left: auto;
   width: auto;
@@ -3687,9 +3691,463 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
 }
 
 
-/* Force nested modals to appear above student sheets */
-#absent-excuse-modal{ z-index: 2147483647 !important; }
-#late-minutes-modal{ z-index: 2147483646 !important; }
+/* =========================================================
+   GOOGLE / MATERIAL YOU THEME OVERRIDES (Frontend only)
+   - Keeps all IDs, classes, and JS APIs unchanged.
+   - Overrides colors, radius, elevations & component styles.
+   ========================================================= */
+:root{
+  /* Material-ish tokens (light) */
+  --bg: #f8f9fa;
+  --surface: #ffffff;
+  --surface-2: #f1f3f4;
+  --surface-3: #e8f0fe;
+
+  --primary: #1a73e8;
+  --primary-dark: #0b57d0;
+
+  --text: #202124;
+  --text-sec: #5f6368;
+
+  --danger: #d93025;
+  --warning: #f9ab00;
+  --success: #188038;
+
+  --border: #dadce0;
+  --radius: 16px;
+
+  --shadow-1: 0 1px 2px rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  --shadow-2: 0 2px 6px rgba(60,64,67,.2), 0 6px 16px rgba(60,64,67,.15);
+
+  /* Keep existing app accent variable used everywhere */
+  --koran-player-accent: var(--primary);
+  --glass: rgba(255,255,255,0.72);
+}
+
+.dark-mode{
+  --bg: #202124;
+  --surface: #2b2c2f;
+  --surface-2: #303134;
+  --surface-3: rgba(138,180,248,0.14);
+
+  --primary: #8ab4f8;
+  --primary-dark: #8ab4f8;
+
+  --text: #e8eaed;
+  --text-sec: #9aa0a6;
+
+  --danger: #f28b82;
+  --warning: #fdd663;
+  --success: #81c995;
+
+  --border: #3c4043;
+  --glass: rgba(32,33,36,0.72);
+}
+
+/* Typography */
+body{ font-family: Roboto, Alexandria, system-ui, -apple-system, Segoe UI, sans-serif; }
+html[dir="rtl"] body{ font-family: Alexandria, Roboto, system-ui, -apple-system, Segoe UI, sans-serif; }
+
+/* Layout surfaces */
+header{
+  padding: 10px 14px;
+  background: var(--surface);
+  box-shadow: none;
+  border-bottom: 1px solid var(--border);
+}
+header .logo-area{ gap: 12px; }
+header .logo-img{ width: 36px; height: 36px; border-radius: 10px; }
+#hdr-user{ font-weight: 500; color: var(--text-sec); }
+#hdr-sync{ font-size: 0.85rem; color: var(--text-sec); }
+
+/* Icon buttons like Google apps */
+.icon-btn{
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  width: 42px;
+  height: 42px;
+  color: var(--text-sec);
+}
+.icon-btn:hover{ background: var(--surface-2); }
+.icon-btn:active{ background: var(--surface-2); transform: scale(0.98); }
+.icon-btn i{ font-size: 1.05rem; }
+
+/* Primary buttons */
+.btn{
+  background: var(--primary);
+  border-radius: 999px;
+  padding: 12px 18px;
+  box-shadow: none;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+.btn:hover{ background: var(--primary-dark); }
+.btn.btn-sec{
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn.btn-sec:hover{ background: var(--surface-2); }
+
+/* Inputs (Material-ish) */
+.login-box input,
+.form-input, .form-select, .form-textarea, .search-bar{
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.search-bar{ background: var(--surface-2); border: 1px solid var(--border); }
+.login-box input{ background: var(--surface); }
+.form-input:focus, .form-select:focus, .form-textarea:focus, .login-box input:focus{
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26,115,232,0.18);
+  outline: none;
+}
+
+/* Cards */
+.card, .msg-card, .group-card{
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.card{ border-radius: 18px; }
+.msg-card{ border-radius: 16px; }
+.group-card{ border-radius: 18px; }
+
+/* Chips */
+.chip{
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: var(--text);
+}
+.chip.active{
+  background: var(--surface-3);
+  border-color: rgba(26,115,232,0.35);
+  color: var(--primary);
+}
+
+/* Segmented tabs -> Material-like */
+.segmented-tabs{
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+}
+.segmented-btn{
+  border-radius: 999px;
+  font-weight: 600;
+}
+.segmented-btn.active{
+  background: var(--surface-3);
+  color: var(--primary);
+  box-shadow: none;
+}
+
+/* Bottom navigation (Material-ish) */
+nav.bottom-nav{
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  box-shadow: none;
+  padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+  gap: 2px;
+}
+.nav-item{
+  flex: 1 1 0;
+  border-radius: 16px;
+  padding: 8px 6px;
+  color: var(--text-sec);
+}
+.nav-item.active{
+  color: var(--primary);
+  background: var(--surface-3);
+}
+.nav-item i{ font-size: 1.05rem; }
+.dot-badge{ box-shadow: 0 0 0 2px var(--surface); }
+
+/* Modal: soften like Google bottom sheet */
+.modal-overlay{ background: rgba(32,33,36,0.35); }
+.modal-content{
+  border-radius: 22px 22px 0 0;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
+}
+.close-icon{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-sec);
+}
+.close-icon:hover{ background: var(--surface-3); }
+
+/* Login screen like Google card */
+#login-overlay{ background: var(--bg); }
+.login-box{
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+  border-radius: 22px;
+}
+.login-tabs{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+}
+.login-tab{
+  border-radius: 999px;
+  font-weight: 600;
+}
+.login-tab.active{
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: none;
+}
+
+/* Attendance buttons: more Material */
+.att-select-btn{
+  border-radius: 14px;
+  border-color: var(--border);
+  box-shadow: none;
+}
+.att-select-btn.selected{ box-shadow: 0 0 0 3px rgba(217,48,37,0.22); border-color: rgba(217,48,37,0.45); }
+
+/* Small helpers */
+.money-badge{ border-radius: 999px; padding: 3px 8px; }
+.status-badge{ border-radius: 999px; padding: 4px 10px; }
+
+
+
+
+/* =========================================================
+   iPHONE MODERN THEME OVERRIDES (iOS-like)
+   - Visual-only CSS overrides (keeps IDs/classes/JS unchanged)
+   ========================================================= */
+
+/* System font stack close to iOS (keeps Arabic-friendly fallback) */
+body{ font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, "Alexandria", "Roboto", "Segoe UI", sans-serif !important; }
+html[dir="rtl"] body{ font-family: "Alexandria", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Roboto", "Segoe UI", sans-serif !important; }
+
+/* iOS tokens */
+:root{
+  --bg: #f2f2f7;
+  --surface: rgba(255,255,255,0.80);
+  --surface-solid: #ffffff;
+  --surface-2: rgba(255,255,255,0.95);
+  --surface-3: rgba(0,122,255,0.14);
+
+  --primary: #007aff;
+  --primary-dark: #007aff;
+
+  --text: #0b0b0c;
+  --text-sec: rgba(60,60,67,0.72);
+
+  --danger: #ff3b30;
+  --warning: #ff9500;
+  --success: #34c759;
+
+  --border: rgba(60,60,67,0.18);
+  --radius: 20px;
+
+  --shadow-1: 0 10px 28px rgba(0,0,0,0.08);
+  --shadow-2: 0 18px 44px rgba(0,0,0,0.14);
+
+  --glass: rgba(255,255,255,0.72);
+
+  /* Keep existing app accent variable used across the app */
+  --koran-player-accent: var(--primary);
+}
+
+.dark-mode{
+  --bg: #000000;
+  --surface: rgba(28,28,30,0.78);
+  --surface-solid: #1c1c1e;
+  --surface-2: rgba(44,44,46,0.92);
+  --surface-3: rgba(10,132,255,0.20);
+
+  --primary: #0a84ff;
+  --primary-dark: #0a84ff;
+
+  --text: #ffffff;
+  --text-sec: rgba(235,235,245,0.60);
+
+  --danger: #ff453a;
+  --warning: #ffd60a;
+  --success: #32d74b;
+
+  --border: rgba(255,255,255,0.12);
+  --glass: rgba(28,28,30,0.72);
+}
+
+/* App background like iOS grouped views */
+body{
+  background:
+    radial-gradient(980px 700px at 15% -10%, rgba(0,122,255,0.16), transparent 55%),
+    radial-gradient(900px 650px at 115% 8%, rgba(52,199,89,0.10), transparent 58%),
+    var(--bg) !important;
+}
+
+/* Header -> iOS translucent navigation bar */
+header{
+  background: var(--glass) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 10px 14px !important;
+}
+.logo-img{ border-radius: 12px !important; }
+#hdr-user{ color: var(--text-sec) !important; }
+#hdr-sync{ color: var(--text-sec) !important; }
+
+/* Icon buttons -> iOS round glyph buttons */
+.icon-btn{
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 999px !important;
+  border: 1px solid var(--border) !important;
+  background: rgba(255,255,255,0.25) !important;
+  color: var(--primary) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.dark-mode .icon-btn{ background: rgba(255,255,255,0.06) !important; }
+.icon-btn:active{ transform: scale(0.97); opacity: 0.9; }
+
+/* Main spacing like iOS */
+main{
+  padding: 14px !important;
+  padding-top: 10px !important;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+}
+
+/* Cards -> iOS grouped cards */
+.card, .msg-card, .detail-item{
+  background: var(--surface-solid) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 22px !important;
+  box-shadow: var(--shadow-1) !important;
+}
+.dark-mode .card, .dark-mode .msg-card, .dark-mode .detail-item{
+  background: var(--surface-solid) !important;
+}
+.msg-card{ border-left: 0 !important; }
+.msg-card.new{ box-shadow: 0 0 0 2px rgba(0,122,255,0.18), var(--shadow-1) !important; }
+
+/* Inputs -> iOS rounded fields */
+.search-bar, .form-input, .form-select, .form-textarea, .login-box input{
+  border-radius: 16px !important;
+  border: 1px solid var(--border) !important;
+  background: var(--surface-2) !important;
+}
+.search-bar::placeholder{ color: var(--text-sec); }
+
+/* Buttons -> iOS primary pill */
+.btn{
+  background: var(--koran-player-accent, var(--primary)) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+.btn-sec{
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Chips -> iOS pills */
+.chip{
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.35) !important;
+  border: 1px solid var(--border) !important;
+}
+.dark-mode .chip{ background: rgba(255,255,255,0.06) !important; }
+.chip.active{
+  background: var(--surface-3) !important;
+  border-color: rgba(0,122,255,0.28) !important;
+  color: var(--primary) !important;
+}
+
+/* Bottom tab bar -> iOS translucent */
+nav.bottom-nav{
+  background: var(--glass) !important;
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  border-top: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  padding: 8px 10px calc(10px + env(safe-area-inset-bottom)) !important;
+  gap: 6px !important;
+}
+.nav-item{
+  flex: 1 1 0 !important;
+  border-radius: 18px !important;
+  padding: 10px 6px 8px !important;
+  color: var(--text-sec) !important;
+  transition: background 160ms ease, transform 160ms ease, color 160ms ease;
+}
+.nav-item i{ font-size: 1.25rem !important; }
+.nav-item span{ font-size: 0.72rem !important; font-weight: 700 !important; letter-spacing: 0.1px; }
+.nav-item.active{
+  background: var(--surface-3) !important;
+  color: var(--primary) !important;
+}
+.nav-item:active{ transform: scale(0.98); }
+
+/* Modal sheet -> iOS bottom sheet with handle */
+.modal-overlay{ background: rgba(0,0,0,0.38) !important; }
+.modal-content{
+  background: var(--surface-solid) !important;
+  border-radius: 26px 26px 0 0 !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: var(--shadow-2) !important;
+  padding-top: 18px !important;
+}
+.modal-content:before{
+  content:"";
+  position:absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(60,60,67,0.28);
+}
+.dark-mode .modal-content:before{ background: rgba(235,235,245,0.18); }
+.close-icon{
+  border: 1px solid var(--border) !important;
+  background: rgba(255,255,255,0.30) !important;
+}
+.dark-mode .close-icon{ background: rgba(255,255,255,0.06) !important; }
+
+/* FAB -> iOS floating pill */
+.fab-btn{
+  border-radius: 999px !important;
+  background: var(--koran-player-accent, var(--primary)) !important;
+}
+.fab-user-add{ background: var(--koran-player-accent, var(--primary)) !important; }
+
+/* Attendance buttons -> iOS clear states */
+.att-select-btn{ border-radius: 16px !important; border: 1px solid var(--border) !important; box-shadow: none !important; }
+.att-select-btn.selected{ box-shadow: 0 0 0 3px rgba(255,59,48,0.18) !important; border-color: rgba(255,59,48,0.30) !important; }
+
+/* Reduce harsh borders in dark */
+.dark-mode .search-bar, .dark-mode .form-input, .dark-mode .form-select, .dark-mode .form-textarea, .dark-mode .login-box input{
+  background: rgba(44,44,46,0.85) !important;
+}
+
+/* Login -> iOS frosted card */
+#login-overlay{ background: var(--bg) !important; }
+.login-box{
+  background: var(--glass) !important;
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  border: 1px solid var(--border) !important;
+  border-radius: 28px !important;
+  box-shadow: var(--shadow-1) !important;
+}
+
+/* Make badges crisp */
+.badge{ box-shadow: 0 0 0 2px var(--surface-solid); }
+
 </style>
 <style id="qc-audio-css">
 /* Quran.com-inspired minimal iPhone-style bottom audio bar (RTL) */
@@ -4094,10 +4552,6 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
 
 
     <div style="margin-top:12px; display:flex; flex-direction:column; gap:4px;" id="student-home-alerts"></div>
-
-    <!-- AI Report (Gemini) -->
-    
-
     <div class="card flex-col hidden" id="stu-home-hw-card" style="align-items:flex-start; margin-top:12px; cursor:pointer;" onclick="openStudentHomeworkShortcut(event)">
       <div style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:10px;">
         <div id="stu-home-hw-title" style="font-weight:900;">Hausaufgaben</div>
@@ -4127,128 +4581,9 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
   </div>
 </main>
 
-<main id="tab-student-memorize" class="hidden koran-tab">
-  <div id="koran-reader" class="koran-reader" dir="rtl">
-    <div id="koran-page-wrap" class="koran-page-wrap">
-<div id="koranPageLoading" class="koran-page-loading hidden"><div class="pill">تحميل الصفحة...</div></div>
 
-      <div id="koranPageText" class="koran-page-text hidden" aria-label="نص الصفحة"></div>
+<!-- KORAN TAB REMOVED -->
 
-      <img id="koranPageImg" class="koran-page-img hidden" alt="Quran page" />
-</div>
-
-    <button id="koranIndexFab" class="koran-fab" aria-label="الفهرس" type="button" title="الفهرس">
-      <i class="fa-solid fa-list-ul"></i>
-    </button>
-
-    <div id="koranDrawerOverlay" class="koran-drawer-overlay hidden" aria-hidden="true"></div>
-    <aside id="koranDrawer" class="koran-drawer hidden" aria-hidden="true">
-      <div class="koran-drawer-head">
-        <div class="koran-drawer-title">الفهرس</div>
-        <button class="icon-btn" id="koranDrawerClose" aria-label="إغلاق" type="button">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <div class="koran-drawer-body">
-        <div class="koran-jump">
-          <div class="koran-section-title">الانتقال إلى صفحة</div>
-          <div class="koran-jump-row">
-            <input id="koranJumpPageInput" type="number" min="1" max="604" class="form-input" placeholder="رقم الصفحة (1-604)" inputmode="numeric">
-            <button class="icon-btn" id="koranJumpPageBtn" type="button" title="اذهب"><i class="fa-solid fa-arrow-right"></i></button>
-          </div>
-        </div>
-
-        <div class="koran-bookmarks">
-          <div class="koran-section-title">العلامات</div>
-          <div id="koranBookmarksList" class="koran-list koran-bookmarks-list"></div>
-        </div>
-
-        <div class="koran-surahs">
-          <div class="koran-section-title">السور</div>
-          <input id="koranSurahSearch" type="text" class="search-bar" placeholder="ابحث عن سورة...">
-          <div id="koranSurahList" class="koran-list"></div>
-        </div>
-      </div>
-    </aside>
-
-        <div id="koranAudioBar" class="qc-audio-bar" hidden dir="rtl" aria-live="polite">
-  <div class="qc-progress">
-    <input id="koranSeek" type="range" min="0" max="1000" value="0" aria-label="شريط التقدم">
-  </div>
-
-  <div class="qc-controls" role="group" aria-label="تحكم الصوت">
-    <button class="qc-btn" id="koranAudioStop" type="button" title="إيقاف/إغلاق" aria-label="إيقاف/إغلاق"><i class="fa-solid fa-xmark"></i></button>
-    <button class="qc-btn" id="koranAudioPrev" type="button" title="السابق" aria-label="السابق"><i class="fa-solid fa-backward-step"></i></button>
-
-    <button class="qc-btn qc-play" id="koranAudioToggle" type="button" title="تشغيل/إيقاف" aria-label="تشغيل/إيقاف">
-      <span id="koranPlayLabel"><i class="fa-solid fa-play"></i></span>
-    </button>
-
-    <button class="qc-btn" id="koranAudioNext" type="button" title="التالي" aria-label="التالي"><i class="fa-solid fa-forward-step"></i></button>
-    <button class="qc-btn" id="qcMuteBtn" type="button" title="كتم الصوت" aria-label="كتم الصوت" aria-pressed="false">🔈</button>
-    <button class="qc-btn" id="koranAudioMoreBtn" type="button" title="المزيد" aria-label="المزيد"><i class="fa-solid fa-ellipsis"></i></button>
-  </div>
-
-  <!-- مخفي افتراضيًا (يمكن إظهاره لاحقًا عند الحاجة) -->
-  <div class="qc-meta" id="qcMeta">
-    <div class="qc-title" id="koranAudioTitle"></div>
-    <div class="qc-sub" id="koranAudioInfo"></div>
-    <div class="qc-sub" id="koranAudioHint">اختر سورة من الفهرس ثم اضغط تشغيل</div>
-  </div>
-</div>
-
-<div id="qcAudioSheetBackdrop" class="qc-sheet-backdrop" hidden></div>
-
-<div id="koranAudioAdvanced" class="qc-sheet" aria-hidden="true" dir="rtl">
-  <div class="qc-handle"></div>
-  <h3>إعدادات الصوت</h3>
-
-  <div class="qc-row">
-    <label id="koranLblSpeed" for="koranSpeedSel">السرعة</label>
-    <select id="koranSpeedSel" aria-label="سرعة التشغيل">
-      <option value="0.5">0.5×</option>
-      <option value="0.75">0.75×</option>
-      <option value="1" selected>1×</option>
-      <option value="1.25">1.25×</option>
-      <option value="1.5">1.5×</option>
-      <option value="2">2×</option>
-    </select>
-  </div>
-
-  <div class="qc-row">
-    <label id="koranLblRepeat" for="koranRepeatCount">التكرار</label>
-    <select id="koranRepeatCount" aria-label="عدد التكرار">
-      <option value="1" selected>مرة واحدة</option>
-      <option value="2">مرتين</option>
-      <option value="3">3 مرات</option>
-      <option value="5">5 مرات</option>
-      <option value="10">10 مرات</option>
-      <option value="999">تكرار</option>
-    </select>
-  </div>
-
-  <div class="qc-row">
-    <div class="qc-switch">
-      <input id="koranAutoNextChk" type="checkbox">
-      <label id="koranLblAutoNext" for="koranAutoNextChk">تشغيل تلقائي للآية التالية</label>
-    </div>
-  </div>
-
-  <div class="qc-row">
-    <span class="qc-small" id="koranTime">00:00 / 00:00</span>
-    <button id="koranBookmarkBtn" type="button" class="qc-btn" title="حفظ موضع" aria-label="حفظ موضع">🔖</button>
-  </div>
-
-  <div class="qc-actions">
-    <button type="button" onclick="window.qcAudioSheet && window.qcAudioSheet.close()">إغلاق</button>
-  </div>
-</div>
-
-<audio id="koranAudio" preload="none"></audio>
-
-  </div>
-</main>
 
 <main id="tab-student-rating" class="hidden">
   <div class="p-4">
@@ -4296,9 +4631,6 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
         </div>
       </div>
     </div>
-
-
-    
 
 <!-- Legacy container kept hidden (in case any code still targets it) -->
     <div id="student-eval-list" class="hidden"></div>
@@ -4682,8 +5014,6 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
   <span id="lbl-nav-stu-hw">Aufgaben</span>
   <span class="dot-badge hidden" id="badge-stu-hw"></span>
 </button>
-
-
 <button class="nav-item hidden" onclick="switchTab('student-rating')" id="nav-stu-rate">
   <i class="fa-solid fa-star"></i>
   <span id="lbl-nav-stu-rate">Akte</span>
@@ -4797,7 +5127,6 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
         </div>
         <div style="margin-top:2rem; display:flex; gap:10px;">
           <button class="btn btn-sec" onclick="printStudent()" id="btn-print-stud">Drucken</button>
-          <button class="btn" onclick="openAiPdfReportModal()" id="btn-ai-pdf-report"><i class="fa-solid fa-file-pdf"></i> AI Bericht</button>
           <button class="btn hidden" id="btn-edit-stud" onclick="openEditStudent()">Bearbeiten</button>
         </div>
     </div>
@@ -4854,36 +5183,28 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
              <label class="form-label">Hifz (Hafiz)</label>
              <select id="eval-hifz" class="form-select">
                  <option value="">—</option>
-                 <option value="1">1 (Sehr gut / ممتاز)</option>
-                 <option value="2">2 (Gut / جيد)</option>
-                 <option value="3">3 (Befriedigend / جيد-متوسط)</option>
-                 <option value="4">4 (Ausreichend / مقبول)</option>
-                 <option value="5">5 (Mangelhaft / ضعيف)</option>
-                 <option value="6">6 (Ungenügend / سيّء)</option>
+                 <option value="Sehr Gut">Sehr Gut (ممتاز)</option>
+                 <option value="Gut">Gut (جيد)</option>
+                 <option value="Mittel">Mittel (متوسط)</option>
+                 <option value="Schwach">Schwach (ضعيف)</option>
              </select>
          </div>
          <div class="form-group">
              <label class="form-label">Tajweed</label>
              <select id="eval-tajweed" class="form-select">
                  <option value="">—</option>
-                 <option value="1">1 (Sehr gut / ممتاز)</option>
-                 <option value="2">2 (Gut / جيد)</option>
-                 <option value="3">3 (Befriedigend / جيد-متوسط)</option>
-                 <option value="4">4 (Ausreichend / مقبول)</option>
-                 <option value="5">5 (Mangelhaft / ضعيف)</option>
-                 <option value="6">6 (Ungenügend / سيّء)</option>
+                 <option value="Sehr Gut">Sehr Gut</option>
+                 <option value="Gut">Gut</option>
+                 <option value="Mittel">Mittel</option>
              </select>
          </div>
          <div class="form-group">
              <label class="form-label">Verhalten</label>
              <select id="eval-behavior" class="form-select">
                  <option value="">—</option>
-                 <option value="1">1 (Sehr gut / ممتاز)</option>
-                 <option value="2">2 (Gut / جيد)</option>
-                 <option value="3">3 (Befriedigend / جيد-متوسط)</option>
-                 <option value="4">4 (Ausreichend / مقبول)</option>
-                 <option value="5">5 (Mangelhaft / ضعيف)</option>
-                 <option value="6">6 (Ungenügend / سيّء)</option>
+                 <option value="Vorbildlich">Vorbildlich</option>
+                 <option value="Gut">Gut</option>
+                 <option value="Störend">Störend</option>
              </select>
          </div>
          <div class="form-group">
@@ -5075,23 +5396,7 @@ body.koran-mode #koran-page-wrap.koran-page-wrap{
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwt8qhIAmGtmZ3YINNdvoTs3Kh0JExwamuDqSmrkwdWqgu-UEhxb_JrYAHN9Uzyj0LQ/exec'; 
 
 
-
-
-// Generic helper to call Apps Script WebApp (doPost JSON)
-async function apiPost(payload){
-  try{
-    const res = await fetch(WEB_APP_URL, {
-      method:'POST',
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(payload || {})
-    });
-    const text = await res.text();
-    try { return JSON.parse(text); } catch(e) { return { ok:false, error:text }; }
-  } catch(err) {
-    return { ok:false, error: (err && err.message) ? err.message : String(err) };
-  }
-}
-
+// --- Optimistic UI + background Google Sheets sync (queue + retry) ---
 const SYNC_QUEUE_KEY = 'pendingOps_v1';
 const SYNC_FAILED_KEY = 'failedOps_v1';
 
@@ -6182,28 +6487,13 @@ function __syncLessonMemoPlayer(isOpen){
         return;
       }
 
-      // Closing memorization overlay:
-      // Teacher: keep floating player visible (default behavior)
-      // Student: hide floating buttons when the memorization window is closed (to not block the tab bar),
-      //          إلا إذا كان الصوت ما زال يعمل.
+      // Closing memorization overlay: KEEP audio playing + keep player visible
       document.body.classList.remove('lesson-memo-open');
-
       if(fp){
-        if(isStudentRole()){
-          const playing = !!(floatingAudio && floatingAudio.isPlaying);
-          if(playing){
-            fp.classList.add('show');
-            fp.classList.remove('expanded');
-            fp.classList.add('collapsed');
-          } else {
-            hideFloatingAudio();
-          }
-        } else {
-          fp.classList.add('show');
-          // keep as a small floating card when the modal is closed
-          fp.classList.remove('expanded');
-          fp.classList.add('collapsed');
-        }
+        fp.classList.add('show');
+        // keep as a small floating card when the modal is closed
+        fp.classList.remove('expanded');
+        fp.classList.add('collapsed');
       }
       return;
     }
@@ -6997,7 +7287,8 @@ function setupUI() {
       // Show Student Nav
       document.getElementById('nav-stu-home').classList.remove('hidden');
       document.getElementById('nav-stu-hw').classList.remove('hidden');
-document.getElementById('nav-stu-rate').classList.remove('hidden');
+      document.getElementById('nav-stu-mem')?.classList.remove('hidden');
+      document.getElementById('nav-stu-rate').classList.remove('hidden');
       document.getElementById('nav-stu-parent').classList.remove('hidden');
       // Student can use messages tab
       try{ document.getElementById('nav-comm').classList.remove('hidden'); }catch(e){}
@@ -7067,7 +7358,7 @@ function resetNavDefaults(){
   document.getElementById('nav-users')?.classList.add('hidden');
 
   // Student nav hidden by default
-  ['nav-stu-home','nav-stu-hw','nav-stu-rate','nav-stu-parent'].forEach(id => {
+  ['nav-stu-home','nav-stu-hw','nav-stu-mem','nav-stu-rate','nav-stu-parent'].forEach(id => {
     document.getElementById(id)?.classList.add('hidden');
   });
 
@@ -7186,13 +7477,6 @@ function setupStudentUI() {
 
 // --- Student Home (Main tab) ---
 state.studentHomeAlerts = state.studentHomeAlerts || [];
-
-function isStudentRole(){
-  const r = String(state.userRole || state.role || '').trim().toLowerCase();
-  // Common role labels in this project
-  return r.includes('student') || r.includes('schüler') || r.includes('schueler') || r.includes('talib') || r.includes('طالب') || r.includes('تلميذ');
-}
-
 
 function isStudentHomeVisible(){
   const el = document.getElementById('tab-student-home');
@@ -8093,24 +8377,12 @@ function loadStudentHomework() {
 }
 
 function evalToStars(text) {
-  const raw = String(text || '').trim();
-  if(!raw) return null;
-
-  // Numeric grade 1..6 (1 best, 6 worst) → stars 5..0
-  const n = Number(raw);
-  if(!isNaN(n) && n >= 1 && n <= 6){
-    return Math.max(0, Math.min(5, 6 - Math.round(n))); // 1→5, 6→0
-  }
-
-  // Legacy word mapping (backward compatible)
-  const t = raw.toLowerCase();
-  if (t.includes('sehr gut') || t.includes('ممتاز') || t.includes('vorbild')) return 5;
+  const t = String(text || '').trim().toLowerCase();
+  if(!t) return null;
+  if (t.includes('sehr gut') || t.includes('ممتاز')) return 5;
   if (t.includes('gut') || t.includes('جيد')) return 4;
-  if (t.includes('befried') ) return 3;
   if (t.includes('mittel') || t.includes('متوسط')) return 3;
-  if (t.includes('ausreich') || t.includes('مقبول')) return 2;
-  if (t.includes('mangel') || t.includes('ضعيف') || t.includes('stör') || t.includes('stor')) return 1;
-  if (t.includes('ungen') || t.includes('سيء') || t.includes('سيئ')) return 0;
+  if (t.includes('schwach') || t.includes('ضعيف')) return 2;
   return 3;
 }
 
@@ -8133,17 +8405,6 @@ function isAbsentStatus(status){
   const st = String(status || '').trim().toLowerCase();
   return (st === 'غياب' || st === 'abwesend' || st === 'absent' || st.includes('abw'));
 }
-
-function hasMedicalCertValue(v){
-  const s = String(v ?? '').trim().toLowerCase();
-  if(!s) return false;
-  return (
-    s === '1' || s === 'true' || s === 'yes' || s === 'ja' ||
-    s.includes('attest') || s.includes('arzt') ||
-    s.includes('طبي') || s.includes('طبية') || s.includes('نعم')
-  );
-}
-
 
 async function loadStudentEvaluations() {
   try{
@@ -8241,7 +8502,6 @@ async function loadStudentEvaluations() {
   }
 }
 
-
 async function loadStudentAttendance(){
   try{
     if(!state.studentData?.referenz) return;
@@ -8258,79 +8518,48 @@ async function loadStudentAttendance(){
 
     const records = (res && res.ok && Array.isArray(res.records)) ? res.records : [];
     state.studentAttendance = records;
+    state.studentAttendanceLoaded = true;
 
-    let lateCount = 0;
-    let absCount = 0;
-
-    records.forEach(r => {
-      const st = r?.status || '';
-      if(isLateStatus(st)) lateCount++;
-      if(isAbsentStatus(st)) absCount++;
-    });
+    let lateCount = 0, absCount = 0;
+    for(const r of records){
+      if(isLateStatus(r.status)) lateCount++;
+      else if(isAbsentStatus(r.status)) absCount++;
+    }
 
     if(lateCountEl) lateCountEl.innerText = String(lateCount);
     if(absCountEl)  absCountEl.innerText  = String(absCount);
 
-    if(!listEl) return;
-
-    // No "no data" messages — keep it empty
-    if(records.length === 0){
+    if(listEl){
       listEl.innerHTML = '';
-      return;
+      if(records.length === 0){
+        listEl.innerHTML = `<div class="text-sec text-center">${state.lang === 'de' ? 'Keine Einträge.' : 'لا توجد سجلات.'}</div>`;
+      } else {
+        records.forEach(r => {
+          const d = escapeHtml(dateOnly(r.date || ''));
+          const st = String(r.status || '').trim();
+          const late = isLateStatus(st);
+          const abs  = isAbsentStatus(st);
+          const col = abs ? 'var(--danger)' : (late ? 'var(--warning)' : 'var(--text)');
+          listEl.innerHTML += `
+            <div class="card flex-col" style="align-items:flex-start; padding:12px; margin-bottom:6px;">
+              <div style="display:flex; width:100%; justify-content:space-between; align-items:center; gap:10px;">
+                <div style="font-weight:bold;">${d}</div>
+                <div style="font-weight:900; color:${col};">${escapeHtml(st)}</div>
+              </div>
+            </div>`;
+        });
+      }
     }
 
-    // Newest first already from server, but keep stable
-    const rows = records.slice();
-
-    listEl.innerHTML = rows.map(r => {
-      const date = escapeHtml(String(r.date || '').trim());
-      const stRaw = String(r.status || '').trim();
-      const isLate = isLateStatus(stRaw);
-      const isAbs  = isAbsentStatus(stRaw);
-
-      const minutesMatch = stRaw.match(/(\d+)\s*(?:min|minute|د|دقيقة)/i);
-      const minutes = minutesMatch ? minutesMatch[1] : '';
-
-      const title = isLate
-        ? (state.lang === 'de' ? 'Verspätung' : 'تأخير')
-        : (state.lang === 'de' ? 'Abwesenheit' : 'غياب');
-
-      const badge = isLate
-        ? `<span class="status-badge" style="background: var(--warn-bg); color: var(--warn);"><i class="fa-solid fa-clock"></i> ${title}${minutes ? ` • ${minutes} ${state.lang === 'de' ? 'Min' : 'د'}` : ''}</span>`
-        : `<span class="status-badge" style="background: var(--danger-bg); color: var(--danger);"><i class="fa-solid fa-circle-xmark"></i> ${title}</span>`;
-
-      let extra = '';
-      if(isAbs){
-        const reason = String(r.reason || '').trim();
-        const hasCert = hasMedicalCertValue(r.justified);
-        const certLine = `${state.lang === 'de' ? 'Ärztliches Attest: ' : 'شهادة طبية: '}${hasCert ? (state.lang === 'de' ? 'Ja' : 'نعم') : (state.lang === 'de' ? 'Nein' : 'لا')}`;
-        extra = `
-          <div class="text-sm text-sec" style="margin-top:6px;">
-            ${reason ? `<div>${state.lang === 'de' ? 'Grund: ' : 'العذر: '}${escapeHtml(reason)}</div>` : ''}
-            <div>${certLine}</div>
-          </div>`;
-      }
-
-      return `
-        <div class="card" style="padding:10px 12px;">
-          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-            <div class="text-sm" style="font-weight:700;">${date}</div>
-            <div>${badge}</div>
-          </div>
-          ${extra}
-        </div>
-      `;
-    }).join('');
   }catch(e){
     const lateCountEl = document.getElementById('akte-att-late-count');
     const absCountEl  = document.getElementById('akte-att-abs-count');
     const listEl = document.getElementById('akte-att-history-list');
     if(lateCountEl) lateCountEl.innerText = '0';
     if(absCountEl)  absCountEl.innerText  = '0';
-    if(listEl) listEl.innerHTML = '';
+    if(listEl) listEl.innerHTML = `<div class="text-sec text-center">${state.lang === 'de' ? 'Fehler beim Laden.' : 'تعذر تحميل البيانات.'}</div>`;
   }
 }
-
 
 
 // --- Student: Fortschritt / تقدمي (confirmed memorization ranges) ---
@@ -8536,125 +8765,6 @@ async function loadStudentProgress(){
     if(lastEl) lastEl.textContent = '—';
   }
 }
-
-
-// =====================
-// AI REPORT (Gemini)
-// =====================
-function __el(id){ return document.getElementById(id); }
-function __setText(id, txt){ const el = __el(id); if(el) el.innerText = txt; }
-function __setHtml(id, html){ const el = __el(id); if(el) el.innerHTML = html; }
-
-function __applyAiTexts(){
-  const de = (state.lang === 'de');
-  __setText('stu-home-ai-head', de ? 'AI Bericht' : 'تقرير الذكاء الاصطناعي');
-  __setText('stu-home-ai-sub',  de ? 'Bericht aus Anwesenheit, Verhalten & Hifz' : 'تقرير من الحضور والسلوك والحفظ');
-  __setText('stu-akte-ai-modal-title', de ? 'AI Bericht' : 'تقرير الذكاء الاصطناعي');
-  __setText('ai-report-desc', de ? 'Bericht aus Anwesenheit, Bewertungen, Verhalten & Hifz. (Gemini)' : 'تقرير من الحضور والتقييمات والسلوك والحفظ (Gemini)');
-  __setText('btn-ai-generate', de ? 'Erstellen' : 'إنشاء');
-  __setText('btn-ai-loadlast', de ? 'Letzten laden' : 'تحميل آخر تقرير');
-  __setText('btn-ai-copy', de ? 'Kopieren' : 'نسخ');
-  __setText('btn-ai-close', de ? 'Schließen' : 'إغلاق');
-}
-
-function openStudentAiReport(){
-  // Disabled for Student mode
-  if(String(state.role||'').toLowerCase()==='student'){ return; }
-  __applyAiTexts();
-  openModal('stu-akte-ai-modal');
-  loadLastStudentAiReport();
-}
-
-async function loadLastStudentAiReport(){
-  __applyAiTexts();
-  const statusEl = __el('ai-report-status');
-  const bodyEl   = __el('ai-report-body');
-  const metaEl   = __el('ai-report-meta');
-
-  const ref = state.studentData?.referenz;
-  if(!ref){
-    if(statusEl) statusEl.innerText = (state.lang==='de') ? 'Kein Schüler ausgewählt.' : 'لم يتم اختيار طالب.';
-    if(bodyEl) bodyEl.innerText = '—';
-    if(metaEl) metaEl.innerText = '';
-    return;
-  }
-
-  if(statusEl) statusEl.innerText = (state.lang==='de') ? 'Lade letzten Bericht…' : 'جارٍ تحميل آخر تقرير…';
-
-  const res = await fetch(WEB_APP_URL, {
-    method:'POST',
-    headers:{ 'Content-Type':'text/plain' },
-    body: JSON.stringify({ action:'getLastStudentReport', studentRef: ref })
-  }).then(r=>r.json()).catch(()=>null);
-
-  if(res && res.ok && res.report){
-    if(statusEl) statusEl.innerText = '';
-    if(bodyEl) bodyEl.innerText = String(res.report || '').trim() || '—';
-    const dt = res.createdAt ? dateOnly(res.createdAt) : '';
-    if(metaEl) metaEl.innerText = dt ? ((state.lang==='de') ? ('Letzter Bericht: ' + dt) : ('آخر تقرير: ' + dt)) : '';
-    // update small "last" labels on cards
-    const lastTxt = dt || '—';
-    __setText('stu-home-ai-last', lastTxt);
-    __setText('akte-ai-last', lastTxt);
-  } else {
-    const msg = (res && res.error) ? String(res.error) : 'no_report';
-    if(statusEl) statusEl.innerText = (state.lang==='de') ? ('Kein Bericht gefunden. ('+msg+')') : ('لا يوجد تقرير. ('+msg+')');
-    if(bodyEl) bodyEl.innerText = '—';
-    if(metaEl) metaEl.innerText = '';
-    __setText('stu-home-ai-last', '—');
-    __setText('akte-ai-last', '—');
-  }
-}
-
-async function generateStudentAiReport(){
-  __applyAiTexts();
-  const statusEl = __el('ai-report-status');
-  const bodyEl   = __el('ai-report-body');
-  const metaEl   = __el('ai-report-meta');
-
-  const ref = state.studentData?.referenz;
-  if(!ref){
-    if(statusEl) statusEl.innerText = (state.lang==='de') ? 'Kein Schüler ausgewählt.' : 'لم يتم اختيار طالب.';
-    return;
-  }
-
-  if(statusEl) statusEl.innerText = (state.lang==='de') ? 'Erstelle Bericht… (Gemini)' : 'جارٍ إنشاء التقرير… (Gemini)';
-  if(bodyEl) bodyEl.innerText = '—';
-  if(metaEl) metaEl.innerText = '';
-
-  const res = await fetch(WEB_APP_URL, {
-    method:'POST',
-    headers:{ 'Content-Type':'text/plain' },
-    body: JSON.stringify({ action:'generateStudentReport', studentRef: ref, lang: (state.lang || 'de') })
-  }).then(r=>r.json()).catch(()=>null);
-
-  if(res && res.ok && res.report){
-    if(statusEl) statusEl.innerText = (state.lang==='de') ? 'Fertig ✅' : 'تم ✅';
-    if(bodyEl) bodyEl.innerText = String(res.report || '').trim() || '—';
-    const dt = res.createdAt ? dateOnly(res.createdAt) : dateOnly(new Date().toISOString());
-    if(metaEl) metaEl.innerText = dt ? ((state.lang==='de') ? ('Erstellt: ' + dt) : ('تم الإنشاء: ' + dt)) : '';
-    const lastTxt = dt || '—';
-    __setText('stu-home-ai-last', lastTxt);
-    __setText('akte-ai-last', lastTxt);
-  } else {
-    const msg = (res && res.error) ? String(res.error) : 'no_response';
-    if(statusEl) statusEl.innerText = (state.lang==='de') ? ('Fehler: ' + msg) : ('خطأ: ' + msg);
-  }
-}
-
-async function copyAiReport(){
-  const txt = String(__el('ai-report-body')?.innerText || '').trim();
-  if(!txt || txt === '—') return;
-  try{
-    await navigator.clipboard.writeText(txt);
-    __setText('ai-report-status', (state.lang==='de') ? 'Kopiert ✅' : 'تم النسخ ✅');
-  }catch(e){
-    __setText('ai-report-status', (state.lang==='de') ? 'Kopieren nicht möglich.' : 'تعذر النسخ.');
-  }
-}
-
-
-
 
 function renderStudentProgressList(progress){
   const listEl = document.getElementById('akte-prog-history-list');
@@ -9416,18 +9526,16 @@ async function submitHomeAbsent(){
           try{
             enqueueSheetWrite({
               action: 'markAttendance',
-              date: dateISO,
-              rowIndex: state.studentData.rowIndex,
               group: state.studentData.group,
               days: state.studentData.days,
               lastName: state.studentData.lastName,
               firstName: state.studentData.firstName,
               fullName: state.studentData.fullName,
-              status: (state.lang === 'de') ? 'Abwesend' : 'غياب',
+              status: 'غياب',
               teacherName: 'Eltern/Student'
             }, { label: (state.lang === 'de') ? 'Eltern-Abmeldung' : 'تبليغ الغياب' });
             kickSyncQueue();
-}catch(e){}
+          }catch(e){}
         }
       } else {
         failCount++;
@@ -9689,16 +9797,6 @@ function updateLessonFab(){
   const fab = document.getElementById('reader-toggle-fab');
   const icon = document.getElementById('reader-fab-icon');
   if(!fab || !icon) return;
-
-  // In student mode: hide the reader toggle if the reader modal is not visible
-  if(isStudentRole()){
-    const lm = document.getElementById('lesson-modal');
-    const vis = !!(lm && lm.classList.contains('visible'));
-    if(!vis){
-      fab.classList.add('hidden');
-      return;
-    }
-  }
 
   // Hide the reader toggle completely if no lesson is open
   if(!lessonFabState.hasLesson){
@@ -10534,7 +10632,8 @@ if(document.getElementById('stu-akte-prog-modal-title')) document.getElementById
   if(document.getElementById('stu-notif-label')) document.getElementById('stu-notif-label').innerText = (state.lang === 'de' ? 'Bei neuen Einträgen benachrichtigen' : 'تنبيه عند وصول جديد');
     if(document.getElementById('lbl-nav-stu-home')) document.getElementById('lbl-nav-stu-home').innerText = (state.lang === 'de' ? 'Home' : 'الرئيسية');
 if(document.getElementById('lbl-nav-stu-hw')) document.getElementById('lbl-nav-stu-hw').innerText = (state.lang === 'de' ? 'Aufgaben' : 'واجب');
-if(document.getElementById('lbl-nav-stu-rate')) document.getElementById('lbl-nav-stu-rate').innerText = 'Akte';
+  if(document.getElementById('lbl-nav-stu-mem')) document.getElementById('lbl-nav-stu-mem').innerText = (state.lang === 'de' ? 'Koran' : 'حفظ');
+    if(document.getElementById('lbl-nav-stu-rate')) document.getElementById('lbl-nav-stu-rate').innerText = 'Akte';
   if(document.getElementById('lbl-nav-stu-parent')) document.getElementById('lbl-nav-stu-parent').innerText = (state.lang === 'de' ? 'Eltern' : 'ولي');
   if(document.getElementById('lesson-hint')) document.getElementById('lesson-hint').innerText = (state.lang === 'de' ? '🎧 Play drücken • 📖 Bedeutung lesen' : '🎧 اضغط تشغيل للاستماع • 📖 اقرأ المعنى بالألمانية');
   if(document.getElementById('surah-search')) document.getElementById('surah-search').placeholder = (state.lang === 'de' ? 'Sure suchen...' : 'ابحث عن سورة...');
@@ -10567,31 +10666,6 @@ if(document.getElementById('lbl-nav-stu-rate')) document.getElementById('lbl-nav
 
   // Keep Aufgaben filter summary in sync
   try{ updateHomeworkFilterSummary(); }catch(e){}
-
-
-  // AI Report labels
-  try{
-    const de = (state.lang === 'de');
-
-    const h1 = document.getElementById('akte-ai-head');
-    const s1 = document.getElementById('akte-ai-sub');
-    const t1 = document.getElementById('stu-ai-report-title');
-    const lLang = document.getElementById('lbl-ai-lang');
-    const lPer = document.getElementById('lbl-ai-period');
-    const lExtra = document.getElementById('lbl-ai-extra');
-    const gTxt = document.getElementById('txt-ai-generate');
-    const cTxt = document.getElementById('txt-ai-copy');
-
-    if(h1) h1.textContent = de ? 'AI Bericht' : 'تقرير بالذكاء الاصطناعي';
-    if(s1) s1.textContent = de ? 'Bericht aus Anwesenheit, Verhalten & Hifz' : 'تقرير من الحضور والمواظبة والسلوك والحفظ';
-    if(t1) t1.textContent = de ? 'AI Schülerbericht' : 'تقرير الطالب (AI)';
-    if(lLang) lLang.textContent = de ? 'Sprache • اللغة' : 'اللغة • Sprache';
-    if(lPer) lPer.textContent = de ? 'Zeitraum (Tage) • المدة (أيام)' : 'المدة (أيام) • Zeitraum (Tage)';
-    if(lExtra) lExtra.textContent = de ? 'Zusätzliche Hinweise (optional) • ملاحظات إضافية' : 'ملاحظات إضافية (اختياري) • Zusätzliche Hinweise';
-    if(gTxt) gTxt.textContent = de ? 'Erstellen' : 'إنشاء';
-    if(cTxt) cTxt.textContent = de ? 'Kopieren' : 'نسخ';
-  }catch(e){}
-
 }
 
 
@@ -10660,7 +10734,6 @@ function autoApplyParentAbsencesToAttendanceToday(){
   if(!state.parentAbsentSet || !state.parentAbsentSet.size) return;
 
   const todayDate = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const absentStatus = (state.lang === 'de') ? 'Abwesend' : 'غياب';
   let marked = 0;
 
   // Mark only if there is no attendance entry yet (so we don't override teacher input).
@@ -10681,7 +10754,7 @@ function autoApplyParentAbsencesToAttendanceToday(){
 
     // Optimistic local UI
     state.attendance = state.attendance || [];
-    state.attendance.push({ fullName: s.fullName, date: todayDate, status: absentStatus });
+    state.attendance.push({ fullName: s.fullName, date: todayDate, status: 'غياب' });
 
     // Queue write (retry-safe)
     enqueueSheetWrite({
@@ -10691,7 +10764,7 @@ function autoApplyParentAbsencesToAttendanceToday(){
       lastName: s.lastName,
       firstName: s.firstName,
       fullName: s.fullName,
-      status: absentStatus,
+      status: 'غياب',
       teacherName: (state.user || '') + ' (auto)'
     }, { label: (state.lang === 'de') ? 'Auto-Abwesenheit' : 'غياب تلقائي' });
 
@@ -10817,7 +10890,8 @@ async function refreshData() {
       } else if(tab === 'comm'){
         // Student messaging: load minimal teachers list + messages
         try{ await loadTeachersForMessagingStudent(); }catch(e){}
-        await loadMessages();      } else {
+        await loadMessages();
+      }else {
         await loadStudentHome();
       }
       stampDone();
@@ -11312,10 +11386,7 @@ const myAtt = studentAttendance.sort((a,b) => b.date.localeCompare(a.date));
     const pKey = `qs_parent_absent:${s.referenz}:${todayKey()}`;
     const parentAbsent = (state.parentAbsentSet && state.parentAbsentSet.has(String(s.referenz || '').trim())) || (localStorage.getItem(pKey) === '1');
     
-        const parentAbsRec = (state.parentAbsencesToday || []).find(x => String(x.studentRef || '').trim() === String(s.referenz || '').trim() || String(x.studentName || '').trim() === String(s.fullName || '').trim());
-    const parentReason = parentAbsRec ? String(parentAbsRec.reason || '').trim() : '';
-    const parentHasCert = parentAbsRec ? hasMedicalCertValue(parentAbsRec.certificate) : false;
-el.className = 'card';
+    el.className = 'card';
     const imgHtml = s.fotoUrl ? `<img src="${s.fotoUrl}">` : (s.firstName ? s.firstName[0] : '?');
     
     let rightSide = '';
@@ -11341,11 +11412,8 @@ el.className = 'card';
       <div class="card-avatar" onclick="openStudentDetail(${s.rowIndex})">${imgHtml}</div>
       <div class="card-info" onclick="openStudentDetail(${s.rowIndex})">
         <div class="font-bold" style="color: var(--text);">${s.fullName} ${(state.role !== 'Lehrer') ? `<span style="font-size:0.7rem; color:var(--primary);">[${s.referenz}]</span>` : ''}</div>
-        ${parentAbsent ? `<div class="status-badge" style="background: var(--primary); color: var(--text); opacity:0.9;"><i class="fa-solid fa-ban"></i> ${state.lang === 'de' ? 'Abwesend gemeldet' : 'مبلّغ غياب'}</div>
-        <div class="text-sm text-sec" style="margin-top:4px;">
-          ${parentReason ? `<div>${state.lang === 'de' ? 'Grund: ' : 'العذر: '}${escapeHtml(parentReason)}</div>` : ''}
-          <div>${state.lang === 'de' ? 'Ärztliches Attest: ' : 'شهادة طبية: '}${parentHasCert ? (state.lang === 'de' ? 'Ja' : 'نعم') : (state.lang === 'de' ? 'Nein' : 'لا')}</div>
-        </div>` : ''}${isLateInDB ? `<div class="status-badge" style="background: var(--warning); color: var(--text); opacity:0.9;"><i class="fa-solid fa-clock"></i> ${state.lang === 'de' ? 'Verspätet' : 'متأخر'}</div>` : ''}
+        ${parentAbsent ? `<div class="status-badge" style="background: var(--danger); color: white; opacity:0.9;"><i class="fa-solid fa-ban"></i> ${state.lang === 'de' ? 'Abwesend gemeldet' : 'مبلّغ غياب'}</div>` : ''}
+        ${isLateInDB ? `<div class="status-badge" style="background: var(--warning); color: var(--text); opacity:0.9;"><i class="fa-solid fa-clock"></i> ${state.lang === 'de' ? 'Verspätet' : 'متأخر'}</div>` : ''}
         <div class="text-sm text-sec">${s.group} • ${s.days}</div>
         ${isWarning ? `<span class="status-badge status-warning">${t('repeatedAbs')}</span>` : ''}
         ${s.abgemeldet ? `<span class="status-badge status-warning">Abgemeldet</span>` : ''}
@@ -11358,79 +11426,54 @@ el.className = 'card';
 }
 
 
-
 function toggleAbsentAttendance(btnElement, rowIndex) {
   const s = state.students.find(x => x.rowIndex === rowIndex);
   if(!s) return;
 
+  // Build a map for quick lookup (fullName -> records)
   const todayDate = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const todayRecord = (state.attendance || []).find(a => a.fullName === s.fullName && a.date === todayDate);
-  const currentStatus = todayRecord ? (todayRecord.status || '') : '';
-  const isAbsentInDB = isAbsentStatus(currentStatus) || String(currentStatus).includes('غياب') || String(currentStatus).includes('Abwesend');
+  const studentAttendance = (state.attendance || []).filter(a => a.fullName === s.fullName);
+  const todayRecord = studentAttendance.find(a => a.date === todayDate);
+  const currentStatus = todayRecord ? (todayRecord.status || 'N/A') : 'N/A';
+  const isAbsentInDB = String(currentStatus).includes('غياب') || String(currentStatus).includes('Abwesend');
 
-  // If already absent -> toggle off immediately
-  if(isAbsentInDB){
-    // Optimistic update
-    if(todayRecord){
-      // Remove record locally (cleaner than keeping NULL)
-      state.attendance = (state.attendance || []).filter(a => !(a.fullName === s.fullName && a.date === todayDate));
-    }
+  // Toggle
+  const newStatus = isAbsentInDB ? 'NULL' : 'غياب';
 
-    renderStudentList();
-
-    enqueueSheetWrite({
-      action: 'markAttendance',
-      group: s.group,
-      days: s.days,
-      lastName: s.lastName,
-      firstName: s.firstName,
-      fullName: s.fullName,
-      status: 'NULL',
-      teacherName: state.user
-    }, { label: (state.lang === 'de') ? 'Abwesenheit' : 'غياب' });
-
-    showToast(state.lang === 'de' ? 'Abwesenheit entfernt (wird gespeichert...)' : 'تم حذف الغياب (جارٍ الحفظ...)');
-    kickSyncQueue();
-    return;
+  // 1) Optimistic UI update
+  if(todayRecord){
+    todayRecord.status = newStatus;
+  } else {
+    state.attendance = state.attendance || [];
+    state.attendance.push({ fullName: s.fullName, date: todayDate, status: newStatus });
   }
 
-  // Not absent yet -> teacher marks absence مباشرة (بدون مودال العذر)
-  const absentStatus = (state.lang === 'de') ? 'Abwesend' : 'غياب';
-
-  // Optimistic UI update
-  try{
-    // remove any existing record for today then add new
-    state.attendance = (state.attendance || []).filter(a => !(a.fullName === s.fullName && a.date === todayDate));
-    state.attendance.push({
-      date: todayDate,
-      fullName: s.fullName,
-      status: absentStatus,
-      justified: '',
-      reason: ''
-    });
-  }catch(e){}
-
+  // Re-render immediately
   renderStudentList();
-  updateFabVisibility();
 
-  // Persist (queued write)
+  // 2) Background save (queue + retry)
   enqueueSheetWrite({
     action: 'markAttendance',
-    rowIndex: s.rowIndex,
     group: s.group,
     days: s.days,
     lastName: s.lastName,
     firstName: s.firstName,
     fullName: s.fullName,
-    status: absentStatus,
-    justified: '',
-    reason: '',
+    status: newStatus,
     teacherName: state.user
   }, { label: (state.lang === 'de') ? 'Abwesenheit' : 'غياب' });
 
-  showToast(state.lang === 'de' ? 'Abwesenheit gespeichert (wird synchronisiert...)' : 'تم تسجيل الغياب (جارٍ المزامنة...)');
+  // UX feedback
+  if(newStatus === 'NULL'){
+    showToast(state.lang === 'de' ? 'Abwesenheit entfernt (wird gespeichert...)' : 'تم حذف الغياب (جارٍ الحفظ...)');
+  } else {
+    showToast(state.lang === 'de' ? 'Abwesenheit gesetzt (wird gespeichert...)' : 'تم تسجيل الغياب (جارٍ الحفظ...)');
+  }
+
+  // kick background processing
   kickSyncQueue();
 }
+
 
 
 
@@ -11442,123 +11485,20 @@ function toggleLateAttendance(btnElement, rowIndex) {
   const todayRecord = state.attendance.find(a => a.fullName === s.fullName && a.date === todayDate);
   const currentStatus = todayRecord ? (todayRecord.status || '') : '';
   const isLate = currentStatus.includes('تأخير') || currentStatus.includes('Verspätet');
+  const newStatus = isLate ? 'NULL' : 'تأخير';
 
-  // If already late -> remove directly (no modal)
-  if(isLate){
-    const newStatus = 'NULL';
-    if(todayRecord){
-      todayRecord.status = newStatus;
-    }
-    renderStudentList();
-    updateFabVisibility();
-    enqueueSheetWrite({
-      action: 'markAttendance',
-      group: s.group,
-      days: s.days,
-      lastName: s.lastName,
-      firstName: s.firstName,
-      fullName: s.fullName,
-      status: newStatus,
-      teacherName: state.user
-    }, { label: (state.lang === 'de') ? 'Verspätung' : 'تأخير' });
-
-    showToast(state.lang === 'de' ? 'Verspätung entfernt (wird gespeichert...)' : 'تم حذف التأخير (جارٍ الحفظ...)');
-    kickSyncQueue();
-    return;
-  }
-
-  // Not late yet -> ask for minutes in a modal (same site style)
-  openLateMinutesModal(rowIndex);
-}
-
-
-// ===== Verspätung: Minutes Modal =====
-let lateMinutesCtx = null; // { rowIndex, fullName }
-
-function openLateMinutesModal(rowIndex){
-  const s = state.students.find(x => x.rowIndex == rowIndex);
-  if(!s) return;
-  lateMinutesCtx = { rowIndex: Number(rowIndex), fullName: s.fullName };
-
-  const titleEl = document.getElementById('late-minutes-title');
-  const labelEl = document.getElementById('late-minutes-label');
-  const hintEl  = document.getElementById('late-minutes-hint');
-  const inputEl = document.getElementById('late-minutes-input');
-  const errEl   = document.getElementById('late-minutes-error');
-  const cancelBtn = document.getElementById('btn-late-minutes-cancel');
-  const saveBtn   = document.getElementById('btn-late-minutes-save');
-
-  if(titleEl) titleEl.textContent = (state.lang === 'de') ? 'Verspätung eintragen' : 'تسجيل التأخير';
-  if(labelEl) labelEl.textContent = (state.lang === 'de') ? 'Wie viele Minuten verspätet?' : 'كم دقيقة تأخر الطالب؟';
-  if(hintEl)  hintEl.textContent  = (state.lang === 'de') ? 'Bitte nur Zahl eingeben (z.B. 10).' : 'أدخل رقمًا فقط (مثال: 10).';
-  if(cancelBtn) cancelBtn.textContent = (state.lang === 'de') ? 'Abbrechen' : 'إلغاء';
-  if(saveBtn)   saveBtn.textContent   = (state.lang === 'de') ? 'Speichern' : 'حفظ';
-  if(inputEl){
-    inputEl.value = '';
-    inputEl.placeholder = (state.lang === 'de') ? 'Minuten…' : 'الدقائق…';
-    inputEl.onkeydown = (ev) => {
-      if(ev && ev.key === 'Enter'){
-        ev.preventDefault();
-        saveLateMinutes();
-      }
-    };
-    setTimeout(()=>{ try{ inputEl.focus(); }catch(e){} }, 50);
-  }
-  if(errEl) errEl.textContent = '';
-
-  openModal('late-minutes-modal');
-}
-
-function closeLateMinutesModal(){
-  lateMinutesCtx = null;
-  closeModal('late-minutes-modal');
-}
-
-function saveLateMinutes(){
-  if(!lateMinutesCtx) return;
-  const inputEl = document.getElementById('late-minutes-input');
-  const errEl   = document.getElementById('late-minutes-error');
-  const btnEl   = document.getElementById('btn-late-minutes-save');
-  const raw = String(inputEl?.value || '').trim();
-  const minutes = Math.floor(Number(raw));
-
-  if(!raw || !Number.isFinite(minutes) || minutes <= 0){
-    if(errEl) errEl.textContent = (state.lang === 'de') ? 'Bitte gültige Minuten eingeben.' : 'أدخل عدد دقائق صحيح.';
-    return;
-  }
-  // reasonable upper bound
-  if(minutes > 240){
-    if(errEl) errEl.textContent = (state.lang === 'de') ? 'Bitte maximal 240 Minuten.' : 'الحد الأقصى 240 دقيقة.';
-    return;
-  }
-
-  if(btnEl) btnEl.disabled = true;
-
-  const rowIndex = lateMinutesCtx.rowIndex;
-  const s = state.students.find(x => x.rowIndex == rowIndex);
-  if(!s){
-    if(btnEl) btnEl.disabled = false;
-    closeLateMinutesModal();
-    return;
-  }
-
-  const todayDate = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const todayRecord = state.attendance.find(a => a.fullName === s.fullName && a.date === todayDate);
-
-  // Store status with minutes (visible in attendance history)
-  const statusText = (state.lang === 'de') ? `Verspätet (${minutes} Min)` : `تأخير (${minutes}د)`;
-
-  // 1) Optimistic UI update
+  // 1) Optimistic UI update (instant)
   if(todayRecord){
-    todayRecord.status = statusText;
+    todayRecord.status = newStatus;
   } else {
-    state.attendance.push({ fullName: s.fullName, date: todayDate, status: statusText });
+    state.attendance.push({ fullName: s.fullName, date: todayDate, status: newStatus });
   }
 
+  // Re-render immediately so the button/badge becomes orange/normal right away
   renderStudentList();
   updateFabVisibility();
 
-  // 2) Background save
+  // 2) Background save (queue + retry)
   enqueueSheetWrite({
     action: 'markAttendance',
     group: s.group,
@@ -11566,127 +11506,20 @@ function saveLateMinutes(){
     lastName: s.lastName,
     firstName: s.firstName,
     fullName: s.fullName,
-    status: statusText,
+    status: newStatus,
     teacherName: state.user
   }, { label: (state.lang === 'de') ? 'Verspätung' : 'تأخير' });
 
-  showToast(state.lang === 'de' ? 'Verspätung gespeichert (wird synchronisiert...)' : 'تم تسجيل التأخير (جارٍ المزامنة...)');
+  // UX feedback
+  if(newStatus === 'NULL'){
+    showToast(state.lang === 'de' ? 'Verspätung entfernt (wird gespeichert...)' : 'تم حذف التأخير (جارٍ الحفظ...)');
+  } else {
+    showToast(state.lang === 'de' ? 'Verspätung gesetzt (wird gespeichert...)' : 'تم تسجيل التأخير (جارٍ الحفظ...)');
+  }
+
+  // kick background processing (safe)
   kickSyncQueue();
-
-  closeLateMinutesModal();
-  if(btnEl) btnEl.disabled = false;
 }
-
-// ===== Abwesenheit: Entschuldigung + Attest Modal =====
-let absentExcuseCtx = null; // { rowIndex, fullName }
-
-function openAbsentExcuseModal(rowIndex){
-  const s = state.students.find(x => x.rowIndex == rowIndex);
-  if(!s) return;
-  absentExcuseCtx = { rowIndex: Number(rowIndex), fullName: s.fullName };
-
-  const titleEl = document.getElementById('absent-excuse-title');
-  const reasonLabelEl = document.getElementById('absent-excuse-reason-label');
-  const reasonEl = document.getElementById('absent-excuse-reason-input');
-  const certLabelEl = document.getElementById('absent-excuse-cert-label');
-  const certEl = document.getElementById('absent-excuse-cert-checkbox');
-  const errEl = document.getElementById('absent-excuse-error');
-
-  const cancelBtn = document.getElementById('btn-absent-excuse-cancel');
-  const saveBtn = document.getElementById('btn-absent-excuse-save');
-  
-
-  if(titleEl) titleEl.textContent = (state.lang === 'de') ? 'Abwesenheit' : 'غياب';
-  if(cancelBtn) cancelBtn.textContent = (state.lang === 'de') ? 'Abbrechen' : 'إلغاء';
-  if(saveBtn) saveBtn.textContent = (state.lang === 'de') ? 'Speichern' : 'حفظ';
-
-  if(reasonLabelEl) reasonLabelEl.textContent = (state.lang === 'de') ? 'Entschuldigungsgrund (optional)' : 'العذر (اختياري)';
-  if(certLabelEl) certLabelEl.textContent = (state.lang === 'de') ? 'Ärztliches Attest vorhanden?' : 'هل توجد شهادة طبية؟';
-
-  if(reasonEl){
-    reasonEl.value = '';
-    reasonEl.placeholder = (state.lang === 'de') ? 'z.B. krank, Termin…' : 'مثال: مرض، موعد…';
-    try{ if(window.matchMedia && window.matchMedia('(pointer:fine)').matches){ setTimeout(()=>{ try{ reasonEl.focus(); }catch(e){} }, 50); } }catch(e){}
-}
-  if(certEl) certEl.checked = false;
-  if(errEl) errEl.textContent = '';
-
-  openModal('absent-excuse-modal');
-}
-
-function closeAbsentExcuseModal(){
-  absentExcuseCtx = null;
-  closeModal('absent-excuse-modal');
-}
-
-function saveAbsentExcuse(){
-  if(!absentExcuseCtx) return;
-
-  const s = state.students.find(x => x.rowIndex === absentExcuseCtx.rowIndex);
-  if(!s) return;
-
-  const reasonEl = document.getElementById('absent-excuse-reason-input');
-  const certEl = document.getElementById('absent-excuse-cert-checkbox');
-  const errEl = document.getElementById('absent-excuse-error');
-  const btnEl = document.getElementById('btn-absent-excuse-save');
-
-  const reason = String(reasonEl?.value || '').trim();
-  const hasCert = !!certEl?.checked;
-
-  if(btnEl) btnEl.disabled = true;
-
-  // Status should match UI language, but detection supports both
-  const absentStatus = (state.lang === 'de') ? 'Abwesend' : 'غياب';
-
-  // Optimistic UI update (so teacher sees it immediately everywhere)
-  try{
-    const todayDE = new Date().toLocaleDateString('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'});
-    // update today's global attendance list
-    state.attendance = (state.attendance || []).filter(a => !(a.fullName === s.fullName && a.date === todayDE));
-    state.attendance.push({
-      date: todayDE,
-      fullName: s.fullName,
-      status: absentStatus,
-      justified: hasCert ? '1' : '',
-      reason: reason
-    });
-
-    renderStudentList();
-
-    // if we are inside the student's profile, refresh his/her attendance history view as well
-    if(state.studentData && state.studentData.fullName === s.fullName){
-      // mark as not loaded so next open reloads
-      state.studentAttendanceLoaded = false;
-      try{ loadStudentAttendance(); }catch(e){}
-    }
-  }catch(e){}
-
-  // Persist to sheet (queued write)
-  enqueueSheetWrite({
-    action: 'markAttendance',
-    rowIndex: s.rowIndex,
-    group: s.group,
-    days: s.days,
-    lastName: s.lastName,
-    firstName: s.firstName,
-    fullName: s.fullName,
-    status: absentStatus,
-    justified: hasCert ? '1' : '',
-    reason: reason,
-    teacherName: state.user
-  }, { label: (state.lang === 'de') ? 'Abwesenheit' : 'غياب' });
-
-  kickSyncQueue();
-
-  if(errEl) errEl.textContent = '';
-  showToast(state.lang === 'de' ? 'Abwesenheit gespeichert (wird gespeichert...)' : 'تم حفظ الغياب (جارٍ الحفظ...)');
-
-  closeAbsentExcuseModal();
-
-  if(btnEl) setTimeout(()=>{ btnEl.disabled = false; }, 250);
-}
-
-
 
 
 function updateFabVisibility() { 
@@ -11749,12 +11582,7 @@ function openStudentDetail(rowIndex) {
   if(!s) return;
   
   state.currentDetailStudent = s; 
-  
-  try{
-    const aiBtn = document.getElementById('btn-ai-pdf-report');
-    if(aiBtn) aiBtn.classList.toggle('hidden', !isTeacherOrAdmin());
-  }catch(e){}
-// reset evaluation UI (note-only switch)
+  // reset evaluation UI (note-only switch)
   try{
     const chk = document.getElementById('eval-note-only');
     if(chk) chk.checked = false;
@@ -11810,43 +11638,14 @@ document.getElementById('det-name').innerText = s.fullName;
     document.getElementById('btn-edit-stud').classList.add('hidden');
   }
 
-  const myAtt = state.attendance
-    .filter(a => a.fullName === s.fullName)
-    .sort((a,b) => b.date.localeCompare(a.date));
-
-  const isLate = (st) => {
-    const s0 = String(st || '').toLowerCase();
-    return s0.includes('versp') || s0.includes('late') || s0.includes('تأخير') || s0.includes('متأخر') || s0.includes('تأخر');
-  };
-  const isAbs = (st) => {
-    const s0 = String(st || '').toLowerCase();
-    return s0.includes('abw') || s0.includes('absent') || s0.includes('غياب') || s0.includes('غائب');
-  };
-  const extractMinutes = (st) => {
-    const m = String(st || '').match(/(\d{1,3})/);
-    return m ? Number(m[1]) : null;
-  };
-
-  const late = myAtt.filter(a => isLate(a.status)).map(a => ({ date: a.date, minutes: extractMinutes(a.status), status: a.status }));
-  const abs  = myAtt.filter(a => isAbs(a.status)).map(a => ({ date: a.date, status: a.status }));
-
-  let attHtml = '';
-  if(late.length){
-    const t = (state.lang === 'de') ? `Verspätungen (${late.length})` : `التأخير (${late.length})`;
-    attHtml += `<h4 style="color:var(--warning)">${t}</h4><ul>` +
-      late.map(x => `<li>${x.date}${(x.minutes ? ` • ${x.minutes}${(state.lang==='de'?' Min':'د')}` : '')}</li>`).join('') +
-      `</ul>`;
-  }
-  if(abs.length){
-    const t = (state.lang === 'de') ? `Fehlzeiten (${abs.length})` : `الغياب (${abs.length})`;
-    attHtml += `<h4 style="color:var(--danger); margin-top:${late.length? '10px':'0'}">${t}</h4><ul>` +
-      abs.map(x => `<li>${x.date}</li>`).join('') +
-      `</ul>`;
-  }
-
-  // إذا لا توجد غيابات ولا تأخيرات: لا نعرض أي نص
-  document.getElementById('det-attendance-list').innerHTML = attHtml;
-const nList = document.getElementById('notes-list'); 
+  const myAtt = state.attendance.filter(a => a.fullName === s.fullName).sort((a,b) => b.date.localeCompare(a.date));
+  const abs = myAtt.filter(a => a.status.includes('غياب') || a.status === 'Abwesend').map(a => a.date);
+  
+  document.getElementById('det-attendance-list').innerHTML = abs.length > 0 ? 
+    `<h4 style="color:var(--danger)">Fehlzeiten (${abs.length})</h4><ul>${abs.map(d=>`<li>${d}</li>`).join('')}</ul>` : 
+    `<p class="text-sec">Keine Fehlzeiten</p>`;
+    
+  const nList = document.getElementById('notes-list'); 
   nList.innerHTML = ''; 
   nList.dataset.studentName = s.fullName;
   
@@ -15501,7 +15300,6 @@ function hideIosExitConfirm(){
   navState.exitUiOpen = false;
   el.classList.remove('visible');
   try{ if(id==='lesson-modal') __syncLessonMemoPlayer(false); }catch(e){}
-  try{ if(id==='lesson-modal' && isStudentRole()) clearLessonFab(); }catch(e){}
   el.setAttribute('aria-hidden', 'true');
   setTimeout(()=> el.classList.add('hidden'), 220);
 }
@@ -15716,7 +15514,7 @@ function switchTab(tabId, opts={}) {
 
   // SECURITY: Student must never navigate to staff/admin tabs (even via Back/History).
   if(roleLower === 'student'){
-    const allowed = ['student-home','student-homework','student-rating','student-parent','comm'];
+    const allowed = ['student-home','student-homework', ,'student-rating','student-parent','comm'];
     if(!allowed.includes(tabId)) tabId = 'student-home';
   }
 
@@ -15732,9 +15530,9 @@ const mainTab = getMainTabId();
   // Ensure modals from previous view do not cover the new tab
   if(!opts.keepModals) dismissAllModalsNoHistory();
 const tabs = ['students', 'homework-admin', 'comm', 'stats', 'docs', 'users',
-                'student-home','student-homework','student-rating','student-parent'];
+                'student-home','student-homework', ,'student-rating','student-parent'];
   const navs = ['students','homework-admin','comm','stats','docs','users',
-                'stu-home','stu-hw','stu-rate','stu-parent'];
+                'stu-home','stu-hw', ,'stu-rate','stu-parent'];
 
   tabs.forEach(tid => {
     const el = document.getElementById('tab-'+tid);
@@ -15758,7 +15556,7 @@ const tabs = ['students', 'homework-admin', 'comm', 'stats', 'docs', 'users',
   
   if(navEl) navEl.classList.add('active');
 
-
+  // Koran tab: hide header & enable immersive reading
   if(tabId === 'stats') renderStatistics();
   if(tabId === 'users' && state.role === 'Admin') { try{ switchAdminBranch(state.adminBranch || 'users'); }catch(e){ renderUsersList(); } }
   if(tabId === 'docs') renderDocuments();
@@ -15786,7 +15584,7 @@ const tabs = ['students', 'homework-admin', 'comm', 'stats', 'docs', 'users',
   if(tabId === 'student-home') { try{ initStudentHomeAbsentUI(); }catch(e){} loadStudentHome(); }
   if(tabId === 'student-homework') { clearStudentBadgeForTab(tabId); loadStudentHomework(); }
   if(tabId === 'student-rating') { clearStudentBadgeForTab(tabId); loadStudentEvaluations(); }
-  if(tabId === 'student-parent') loadParentAbsentState();
+if(tabId === 'student-parent') loadParentAbsentState();
   if(tabId === 'comm') { 
     initCommUI(); 
     renderMessages(); 
@@ -18667,39 +18465,6 @@ function initKoranTab(){
   </div>
 </div>
 
-
-<!-- Student Akte: AI Report (Gemini) -->
-<div id="stu-akte-ai-modal" class="modal-overlay" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <div id="stu-akte-ai-modal-title" class="font-bold" style="font-size:1.05rem;">AI Bericht</div>
-      <button class="icon-btn" onclick="closeModal('stu-akte-ai-modal')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="text-sm text-sec" id="ai-report-desc" style="margin-top:8px;">
-      Bericht aus Anwesenheit, Bewertungen, Verhalten & Hifz. (Gemini)
-    </div>
-
-    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-      <button class="btn" id="btn-ai-generate" onclick="generateStudentAiReport()" style="flex:1; min-width:160px;">Erstellen</button>
-      <button class="btn btn-ghost" id="btn-ai-loadlast" onclick="loadLastStudentAiReport()" style="flex:1; min-width:160px;">Letzten laden</button>
-    </div>
-
-    <div class="text-sm text-sec" id="ai-report-status" style="margin-top:10px;"></div>
-
-    <div class="card flex-col" style="align-items:flex-start; margin-top:12px;">
-      <div id="ai-report-meta" class="text-sm text-sec"></div>
-      <div id="ai-report-body" style="white-space:pre-wrap; margin-top:8px; width:100%; line-height:1.6;">—</div>
-    </div>
-
-    <div style="margin-top:10px; display:flex; gap:8px;">
-      <button class="btn btn-ghost" id="btn-ai-copy" onclick="copyAiReport()" style="flex:1;">Kopieren</button>
-      <button class="btn btn-ghost" id="btn-ai-close" onclick="closeModal('stu-akte-ai-modal')" style="flex:1;">Schließen</button>
-    </div>
-  </div>
-</div>
-
-
 <!-- Student Akte: Attendance History -->
 <div id="stu-akte-att-modal" class="modal-overlay" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true">
@@ -18714,63 +18479,6 @@ function initKoranTab(){
 </div>
 
 
-<!-- Verspätung: Minuten eingeben -->
-<div id="late-minutes-modal" class="modal-overlay" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <div id="late-minutes-title" class="font-bold" style="font-size:1.05rem;">Verspätung</div>
-      <button class="icon-btn" onclick="closeLateMinutesModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="card flex-col" style="align-items:flex-start; margin-top:12px;">
-      <div class="form-group" style="width:100%;">
-        <label class="form-label" id="late-minutes-label">Wie viele Minuten verspätet?</label>
-        <input id="late-minutes-input" class="form-input" type="number" inputmode="numeric" min="1" max="240" step="1" placeholder="Minuten…" />
-        <div class="text-sm text-sec" id="late-minutes-hint" style="margin-top:6px;">Bitte nur Zahl eingeben (z.B. 10).</div>
-        <div class="text-sm" id="late-minutes-error" style="margin-top:8px; color:var(--danger);"></div>
-      </div>
-    
-<!-- Abwesenheit: Entschuldigung + Attest -->
-<div id="absent-excuse-modal" class="modal-overlay" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <div id="absent-excuse-title" class="font-bold" style="font-size:1.05rem;">Abwesenheit</div>
-      <button class="icon-btn" onclick="closeAbsentExcuseModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="card flex-col" style="align-items:flex-start; margin-top:12px;">
-      <div class="form-group" style="width:100%;">
-        <label class="form-label" id="absent-excuse-reason-label">Entschuldigungsgrund (optional)</label>
-        <textarea id="absent-excuse-reason-input" class="form-input" rows="3" style="resize:vertical;"></textarea>
-      </div>
-
-      <div class="form-group" style="width:100%; margin-top:10px;">
-        <label class="form-label" style="display:flex; align-items:center; gap:10px; cursor:pointer;">
-          <input id="absent-excuse-cert-checkbox" type="checkbox" style="transform:scale(1.1);"/>
-          <span id="absent-excuse-cert-label">Ärztliches Attest vorhanden?</span>
-        </label>
-      </div>
-
-      <div id="absent-excuse-error" class="text-sm" style="color: var(--danger); margin-top:6px;"></div>
-    </div>
-
-    <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:14px;">
-      <button id="btn-absent-excuse-cancel" class="btn btn-secondary" onclick="closeAbsentExcuseModal()">Abbrechen</button>
-      <button id="btn-absent-excuse-save" class="btn btn-primary" onclick="saveAbsentExcuse()">Speichern</button>
-    </div>
-  </div>
-</div>
-
-</div>
-
-    <div style="margin-top:10px; display:flex; gap:8px;">
-      <button class="btn btn-ghost" id="btn-late-minutes-cancel" type="button" onclick="closeLateMinutesModal()" style="flex:1;">Abbrechen</button>
-      <button class="btn primary" id="btn-late-minutes-save" type="button" onclick="saveLateMinutes()" style="flex:1;">Speichern</button>
-    </div>
-  </div>
-</div>
-
-
 <!-- Student Akte: Fortschritt / تقدمي -->
 <div id="stu-akte-prog-modal" class="modal-overlay" aria-hidden="true">
   <div class="modal-content" role="dialog" aria-modal="true">
@@ -18780,58 +18488,6 @@ function initKoranTab(){
     </div>
     <div style="margin-top:12px;">
       <div id="akte-prog-history-list" style="display:flex; flex-direction:column; gap:6px;"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Student: AI Report -->
-<div id="stu-ai-report-modal" class="modal-overlay" aria-hidden="true">
-  <div class="modal-content" role="dialog" aria-modal="true">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-      <div id="stu-ai-report-title" class="font-bold" style="font-size:1.05rem;">AI Schülerbericht</div>
-      <button class="icon-btn" onclick="closeModal('stu-ai-report-modal')" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="card flex-col" style="align-items:flex-start; padding:12px; margin-top:12px;">
-      <div style="display:flex; flex-wrap:wrap; gap:10px; width:100%; align-items:flex-end;">
-        <div class="form-group" style="min-width:160px; flex:1;">
-          <label class="form-label" id="lbl-ai-lang">Sprache • اللغة</label>
-          <select id="ai-report-lang" class="form-select">
-            <option value="de">Deutsch</option>
-            <option value="ar">العربية</option>
-          </select>
-        </div>
-
-        <div class="form-group" style="min-width:160px; flex:1;">
-          <label class="form-label" id="lbl-ai-period">Zeitraum (Tage) • المدة (أيام)</label>
-          <select id="ai-report-period" class="form-select">
-            <option value="30">30</option>
-            <option value="60" selected>60</option>
-            <option value="90">90</option>
-            <option value="180">180</option>
-          </select>
-        </div>
-
-        <div class="form-group" style="min-width:200px; flex:2;">
-          <label class="form-label" id="lbl-ai-extra">Zusätzliche Hinweise (optional) • ملاحظات إضافية</label>
-          <input id="ai-report-extra" class="form-input" placeholder="..." />
-        </div>
-
-        <div style="display:flex; gap:8px;">
-          <button class="btn primary" id="btn-ai-generate" type="button" onclick="generateStudentAiReport()">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span id="txt-ai-generate">Erstellen</span>
-          </button>
-          <button class="btn" id="btn-ai-copy" type="button" onclick="copyStudentAiReport()">
-            <i class="fa-regular fa-copy"></i>
-            <span id="txt-ai-copy">Kopieren</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="text-sm text-sec" id="ai-report-meta" style="margin-top:8px;">—</div>
-
-      <textarea id="ai-report-text" class="form-textarea" rows="14" style="margin-top:10px;" placeholder="—"></textarea>
     </div>
   </div>
 </div>
@@ -18975,547 +18631,6 @@ function initKoranTab(){
   // Expose helpers for other scripts if needed
   window.qcAudioSheet = { open: openSheet, close: closeSheet };
 })();
-
-// ===============================
-// AI PDF Report (Teacher/Admin)
-// ===============================
-function isTeacherOrAdmin(){
-  const r = String(state.role || '').toLowerCase();
-  return (r === 'admin' || r === 'teacher' || r === 'lehrer' || r === 'verwaltung');
-}
-
-function openAiPdfReportModal(){
-  if(!isTeacherOrAdmin()){
-    toast((state.lang==='ar') ? 'هذه الخاصية للمعلم/الإدارة فقط' : 'Nur für Lehrer/Verwaltung');
-    return;
-  }
-  if(!state.currentDetailStudent){
-    toast((state.lang==='ar') ? 'اختر طالباً أولاً' : 'Bitte zuerst einen Schüler öffnen');
-    return;
-  }
-
-  // defaults (date range)
-const now = new Date();
-const fromEl = document.getElementById('ai-pdf-from');
-const toEl   = document.getElementById('ai-pdf-to');
-const pad2 = (n)=> String(n).padStart(2,'0');
-const fmt = (d)=> `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-
-// Default: current month
-if(fromEl){
-  const first = new Date(now.getFullYear(), now.getMonth(), 1);
-  fromEl.value = fromEl.value || fmt(first);
-}
-if(toEl){
-  const last = new Date(now.getFullYear(), now.getMonth()+1, 0);
-  toEl.value = toEl.value || fmt(last);
-}
-
-// clear fields
-  const draftEl = document.getElementById('ai-pdf-draft');
-  const teacherEl = document.getElementById('ai-pdf-teacher');
-  const finalEl = document.getElementById('ai-pdf-final');
-  if(draftEl) draftEl.value = '';
-  if(teacherEl) teacherEl.value = '';
-  if(finalEl) finalEl.value = '';
-
-  const st = document.getElementById('ai-pdf-report-status');
-  if(st) st.textContent = '';
-
-  const dlBtn = document.getElementById('btn-ai-text-download');
-  const pdfBtn = document.getElementById('btn-ai-pdf-generate');
-  if(dlBtn) dlBtn.disabled = true;
-  if(pdfBtn) pdfBtn.disabled = true;
-  const trBtn = document.getElementById('btn-ai-text-translate');
-  if(trBtn) trBtn.disabled = true;
-  setAiPdfTranslateDefault_();
-
-  updateAiPdfPeriodUi_();
-
-  // Keep the teacher's ORIGINAL note (raw) separate from the rephrased text.
-  // This prevents repeated "rephrase" calls from drifting the note on re-generations.
-  if(teacherEl){
-    teacherEl.dataset.raw = teacherEl.value || '';
-    if(!teacherEl.dataset.__rawListener){
-      teacherEl.addEventListener('input', ()=>{ teacherEl.dataset.raw = teacherEl.value || ''; });
-      teacherEl.dataset.__rawListener = '1';
-    }
-  }
-
-  openModal('ai-pdf-report-modal');
-}
-
-function getAiPdfReportLang_(){
-  const sel = document.getElementById('ai-pdf-lang');
-  const v = sel && sel.value ? String(sel.value).toLowerCase().trim() : '';
-  return (v === 'ar') ? 'ar' : 'de';
-}
-
-
-function setAiPdfTranslateDefault_(){
-  const lang = getAiPdfReportLang_();
-  const sel = document.getElementById('ai-pdf-translate-to');
-  if(!sel) return;
-  // default target is the opposite language (most useful)
-  sel.value = (lang === 'de') ? 'ar' : 'de';
-}
-
-async function translateAiFinalText(){
-  if(!isTeacherOrAdmin()){
-    toast((state.lang==='ar') ? 'هذه الخاصية للمعلم/الإدارة فقط' : 'Nur für Lehrer/Verwaltung');
-    return;
-  }
-  const finalEl = document.getElementById('ai-pdf-final');
-  const text = finalEl && finalEl.value ? String(finalEl.value).trim() : '';
-  if(!text){
-    toast((state.lang==='ar') ? 'لا يوجد نص لترجمته' : 'Kein Text zum Übersetzen');
-    return;
-  }
-
-  const toSel = document.getElementById('ai-pdf-translate-to');
-  const targetLang = toSel && toSel.value ? String(toSel.value).toLowerCase().trim() : 'de';
-  const sourceLang = getAiPdfReportLang_();
-
-  if(targetLang === sourceLang){
-    toast((state.lang==='ar') ? 'اختر لغة مختلفة للترجمة' : 'Bitte eine andere Zielsprache wählen');
-    return;
-  }
-
-  const btn = document.getElementById('btn-ai-text-translate');
-  const st = document.getElementById('ai-pdf-report-status');
-
-  try{
-    if(btn) btn.disabled = true;
-    if(st) st.textContent = (state.lang==='ar') ? 'جارٍ الترجمة...' : 'Übersetzung läuft...';
-
-    const res = await apiPost({
-      action: 'translateReportText',
-      role: state.userRole || state.role || '',
-      text: text,
-      sourceLang: sourceLang,
-      targetLang: targetLang
-    });
-
-    if(!res || res.ok !== true){
-      const msg = res && res.error ? String(res.error) : 'translation_failed';
-      const detail = res && res.detail ? String(res.detail) : '';
-      const tried = res && res.triedModels ? String(res.triedModels) : '';
-      const full = detail ? `${msg} — ${detail}${tried ? ` (models: ${tried})` : ''}` : (tried ? `${msg} (models: ${tried})` : msg);
-      throw new Error(full);
-    }
-
-    const out = (res.translatedText !== undefined) ? res.translatedText : (res.text || '');
-    if(finalEl) finalEl.value = String(out || '').trim();
-
-    // set report language to target for consistency
-    const langSel = document.getElementById('ai-pdf-lang');
-    if(langSel) langSel.value = targetLang;
-
-    // enable download/pdf again
-    const dlBtn = document.getElementById('btn-ai-text-download');
-    const pdfBtn = document.getElementById('btn-ai-pdf-generate');
-    if(dlBtn) dlBtn.disabled = !(finalEl && String(finalEl.value||'').trim());
-    if(pdfBtn) pdfBtn.disabled = !(finalEl && String(finalEl.value||'').trim());
-
-    if(st) st.textContent = '';
-  }catch(err){
-    if(st) st.textContent = (state.lang==='ar') ? `خطأ في الترجمة: ${String(err)}` : `Übersetzungsfehler: ${String(err)}`;
-  }finally{
-    if(btn) btn.disabled = !(finalEl && String(finalEl.value||'').trim());
-  }
-}
-
-
-
-
-function getAiPdfPeriodData_(){
-  const fromEl = document.getElementById('ai-pdf-from');
-  const toEl   = document.getElementById('ai-pdf-to');
-
-  const now = new Date();
-  const pad2 = (n)=> String(n).padStart(2,'0');
-  const fmt = (d)=> `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-
-  // Default range: current month
-  if(fromEl && !fromEl.value){
-    const first = new Date(now.getFullYear(), now.getMonth(), 1);
-    fromEl.value = fmt(first);
-  }
-  if(toEl && !toEl.value){
-    const last = new Date(now.getFullYear(), now.getMonth()+1, 0);
-    toEl.value = fmt(last);
-  }
-
-  let from = (fromEl && fromEl.value) ? String(fromEl.value) : fmt(new Date(now.getFullYear(), now.getMonth(), 1));
-  let to   = (toEl && toEl.value) ? String(toEl.value) : fmt(new Date(now.getFullYear(), now.getMonth()+1, 0));
-
-  // If swapped, correct it
-  if(from && to && from > to){
-    const tmp = from; from = to; to = tmp;
-    if(fromEl) fromEl.value = from;
-    if(toEl) toEl.value = to;
-  }
-
-  return { period:'custom', from, to };
-}
-
-
-function updateAiPdfPeriodUi_(){
-  const rangeEl = document.getElementById('ai-pdf-report-range');
-  if(rangeEl){
-    const p = getAiPdfPeriodData_();
-    rangeEl.textContent = (state.lang==='ar')
-      ? `الفترة: ${p.from} → ${p.to}`
-      : `Zeitraum: ${p.from} → ${p.to}`;
-  }
-}
-
-(function bindAiPdfPeriodChange(){
-  try{
-    document.addEventListener('change', (e)=>{
-      if(e?.target?.id === 'ai-pdf-from' || e?.target?.id === 'ai-pdf-to' || e?.target?.id === 'ai-pdf-lang'){
-        updateAiPdfPeriodUi_();
-        if(e?.target?.id === 'ai-pdf-lang') setAiPdfTranslateDefault_();
-      }
-    });
-  }catch(e){}
-})();
-;
-
-async function fetchAiPeriodDraft(){
-  if(!isTeacherOrAdmin()){
-    toast((state.lang==='ar') ? 'هذه الخاصية للمعلم/الإدارة فقط' : 'Nur für Lehrer/Verwaltung');
-    return;
-  }
-  const s = state.currentDetailStudent;
-  if(!s || !s.referenz){
-    toast((state.lang==='ar') ? 'لا يوجد رقم مرجعي للطالب' : 'Keine Referenz für Schüler');
-    return;
-  }
-
-  const st = document.getElementById('ai-pdf-report-status');
-  const btn = document.getElementById('btn-ai-draft-preview');
-  if(st) st.textContent = (state.lang==='ar') ? 'جاري تجهيز ملخص الفترة...' : 'Entwurf wird erstellt...';
-  if(btn) btn.disabled = true;
-
-  try{
-    const p = getAiPdfPeriodData_();
-    const res = await apiPost({
-      action: 'getStudentPeriodDraft',
-      studentRef: s.referenz,
-      period: p.period,
-      dateFrom: p.from,
-      dateTo: p.to,
-      role: state.role,
-      lang: getAiPdfReportLang_()});
-
-    if(!res || !res.ok){
-      const msg = res?.error || 'error';
-      if(st) st.textContent = (state.lang==='ar') ? `فشل: ${msg}` : `Fehler: ${msg}`;
-      return;
-    }
-
-    const draftEl = document.getElementById('ai-pdf-draft');
-    if(draftEl) draftEl.value = res.draftText || '';
-
-    // Show exact range returned by backend (source of truth)
-    const rangeEl = document.getElementById('ai-pdf-report-range');
-    if(rangeEl && res.from && res.to){
-      rangeEl.textContent = (state.lang==='ar')
-        ? `الفترة: ${res.from} → ${res.to}`
-        : `Zeitraum: ${res.from} → ${res.to}`;
-    }
-
-    if(st) st.textContent = '';
-  }catch(err){
-    if(st) st.textContent = (state.lang==='ar') ? `خطأ: ${String(err)}` : `Fehler: ${String(err)}`;
-  }finally{
-    if(btn) btn.disabled = false;
-  }
-}
-
-async function generateAiPeriodReportText(){
-  if(!isTeacherOrAdmin()){
-    toast((state.lang==='ar') ? 'هذه الخاصية للمعلم/الإدارة فقط' : 'Nur für Lehrer/Verwaltung');
-    return;
-  }
-  const s = state.currentDetailStudent;
-  if(!s || !s.referenz){
-    toast((state.lang==='ar') ? 'لا يوجد رقم مرجعي للطالب' : 'Keine Referenz für Schüler');
-    return;
-  }
-
-  const draftEl = document.getElementById('ai-pdf-draft');
-  const teacherEl = document.getElementById('ai-pdf-teacher');
-  const finalEl = document.getElementById('ai-pdf-final');
-
-  const draftText = (draftEl && draftEl.value) ? String(draftEl.value).trim() : '';
-  const teacherText = (teacherEl && (teacherEl.dataset && teacherEl.dataset.raw !== undefined))
-    ? String(teacherEl.dataset.raw || '').trim()
-    : ((teacherEl && teacherEl.value) ? String(teacherEl.value).trim() : '');
-
-  const st = document.getElementById('ai-pdf-report-status');
-  const btn = document.getElementById('btn-ai-text-generate');
-  if(st) st.textContent = (state.lang==='ar') ? 'جاري إعادة صياغة ملاحظة المعلم ودمجها في التقرير...' : 'Lehrernotiz wird umformuliert & Bericht wird erstellt...';
-  if(btn) btn.disabled = true;
-
-  try{
-    const p = getAiPdfPeriodData_();
-    const res = await apiPost({
-      action: 'generateStudentPeriodReportText',
-      studentRef: s.referenz,
-      period: p.period,
-      dateFrom: p.from,
-      dateTo: p.to,
-      role: state.role,
-      lang: getAiPdfReportLang_(),
-      draftText: draftText,
-      teacherText: teacherText
-    });
-
-    if(!res || !res.ok){
-      const msg = res?.error || 'error';
-      const det = (res?.detail) ? ` — ${res.detail}` : '';
-      if(st) st.textContent = (state.lang==='ar') ? `فشل إنشاء التقرير: ${msg}${det}` : `Fehler: ${msg}${det}`;
-      return;
-    }
-
-    if(finalEl) finalEl.value = res.reportText || '';
-
-    // Update teacher note with Gemini-rephrased version (if provided)
-    if(teacherEl && res.teacherTextRephrased && String(res.teacherTextRephrased).trim()){
-      teacherEl.value = String(res.teacherTextRephrased).trim();
-    }
-
-    const dlBtn = document.getElementById('btn-ai-text-download');
-    const pdfBtn = document.getElementById('btn-ai-pdf-generate');
-    if(dlBtn) dlBtn.disabled = !(res.reportText && String(res.reportText).trim());
-    if(pdfBtn) pdfBtn.disabled = !(res.reportText && String(res.reportText).trim());
-    const trBtn = document.getElementById('btn-ai-text-translate');
-    if(trBtn) trBtn.disabled = !(res.reportText && String(res.reportText).trim());
-    setAiPdfTranslateDefault_();
-
-    if(st) st.textContent = '';
-  }catch(err){
-    if(st) st.textContent = (state.lang==='ar') ? `خطأ: ${String(err)}` : `Fehler: ${String(err)}`;
-  }finally{
-    if(btn) btn.disabled = false;
-  }
-}
-
-function downloadAiReportTxt(){
-  try{
-    const finalEl = document.getElementById('ai-pdf-final');
-    const txt = (finalEl && finalEl.value) ? String(finalEl.value) : '';
-    if(!txt.trim()){
-      toast((state.lang==='ar') ? 'لا يوجد نص للتنزيل' : 'Kein Text zum Download');
-      return;
-    }
-    const s = state.currentDetailStudent || {};
-    const safeName = String(s.fullName || s.name || 'Student').replace(/[\\\/\?%\*:|"<>]/g,'-');
-    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Bericht_${safeName}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 800);
-  }catch(e){}
-}
-
-async function generateAiPdfFromText(){
-  if(!isTeacherOrAdmin()){
-    toast((state.lang==='ar') ? 'هذه الخاصية للمعلم/الإدارة فقط' : 'Nur für Lehrer/Verwaltung');
-    return;
-  }
-  const s = state.currentDetailStudent;
-  if(!s || !s.referenz){
-    toast((state.lang==='ar') ? 'لا يوجد رقم مرجعي للطالب' : 'Keine Referenz für Schüler');
-    return;
-  }
-
-  const finalEl = document.getElementById('ai-pdf-final');
-  const teacherEl = document.getElementById('ai-pdf-teacher');
-  const reportText = (finalEl && finalEl.value) ? String(finalEl.value).trim() : '';
-  const teacherText = (teacherEl && (teacherEl.dataset && teacherEl.dataset.raw !== undefined))
-    ? String(teacherEl.dataset.raw || '').trim()
-    : ((teacherEl && teacherEl.value) ? String(teacherEl.value).trim() : '');
-
-  if(!reportText){
-    toast((state.lang==='ar') ? 'أنشئ التقرير النصي أولاً' : 'Bitte zuerst Text-Bericht erstellen');
-    return;
-  }
-
-  const st = document.getElementById('ai-pdf-report-status');
-  const btn = document.getElementById('btn-ai-pdf-generate');
-  if(st) st.textContent = (state.lang==='ar') ? 'جاري إنشاء PDF...' : 'PDF wird erstellt...';
-  if(btn) btn.disabled = true;
-
-  try{
-    const p = getAiPdfPeriodData_();
-    const res = await apiPost({
-      action: 'generateStudentReportPdf',
-      studentRef: s.referenz,
-      period: p.period,
-      dateFrom: p.from,
-      dateTo: p.to,
-      role: state.role,
-      lang: getAiPdfReportLang_(),
-      reportText: reportText,
-      teacherText: teacherText
-    });
-
-    if(!res || !res.ok){
-      const msg = res?.error || 'error';
-      if(st) st.textContent = (state.lang==='ar') ? `فشل إنشاء PDF: ${msg}` : `Fehler: ${msg}`;
-      return;
-    }
-
-    // download/open PDF
-    if(res.base64 && res.fileName){
-      const blobUrl = base64ToBlobUrl_(res.base64, 'application/pdf');
-      window.open(blobUrl, '_blank');
-      // also trigger download
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = res.fileName;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-
-    // drive link (optional)
-    const lastWrap = document.getElementById('ai-pdf-report-last');
-    const driveLink = document.getElementById('ai-pdf-drive-link');
-    if(res.driveUrl && driveLink && lastWrap){
-      driveLink.href = res.driveUrl;
-      lastWrap.classList.remove('hidden');
-    }else if(lastWrap){
-      lastWrap.classList.add('hidden');
-    }
-
-    if(st) st.textContent = '';
-  }catch(err){
-    if(st) st.textContent = (state.lang==='ar') ? `خطأ: ${String(err)}` : `Fehler: ${String(err)}`;
-  }finally{
-    if(btn) btn.disabled = false;
-  }
-}
-
-// Backward compatibility: old button used this name
-async function generateAiPdfReport(){
-  return generateAiPdfFromText();
-}
-
-
-function base64ToBlobUrl_(base64, mime){
-  const bin = atob(String(base64 || ''));
-  const len = bin.length;
-  const bytes = new Uint8Array(len);
-  for(let i=0;i<len;i++) bytes[i] = bin.charCodeAt(i);
-  const blob = new Blob([bytes], { type: mime || 'application/octet-stream' });
-  return URL.createObjectURL(blob);
-}
-
-function triggerDownload_(url, filename){
-  try{
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename || 'report.pdf';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }catch(e){}
-}
 </script>
-<div class="modal-overlay" id="ai-pdf-report-modal">
-  <div class="modal-content" style="max-width:760px;">
-    <button class="close-icon" onclick="closeModal('ai-pdf-report-modal')"><i class="fa-solid fa-xmark"></i></button>
-
-    <h2 style="margin:0 0 6px 0;">Bericht (PDF)</h2>
-    <p class="text-sec" style="margin:0 0 14px 0;">
-      اختر فترة التقرير، شاهد الملخص التلقائي، وأضف تقرير المعلم ثم ندمجه عبر Gemini لإخراج تقرير تربوي إسلامي.
-    </p>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; margin-bottom:10px;">
-      <div class="form-group" style="min-width:320px;">
-        <label class="form-label" style="margin-bottom:6px;">الفترة (من → إلى)</label>
-        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <input class="form-input" type="date" id="ai-pdf-from" style="max-width:180px; height:40px;" />
-          <span class="text-sec">→</span>
-          <input class="form-input" type="date" id="ai-pdf-to" style="max-width:180px; height:40px;" />
-        </div>
-      </div>
-
-      <div class="form-group" style="min-width:200px;">
-        <label class="form-label" style="margin-bottom:6px;">Bericht-Sprache</label>
-        <select id="ai-pdf-lang" class="form-select" style="height:40px; max-width:200px;">
-          <option value="de" selected>Deutsch</option>
-          <option value="ar">العربية</option>
-        </select>
-      </div>
-    </div>
-
-<div class="card" style="padding:12px; margin:0 0 10px 0;">
-      <div class="text-sm text-sec" id="ai-pdf-report-range"></div>
-    </div>
-
-    <div style="display:flex; gap:12px; flex-wrap:wrap;">
-      <div style="flex:1; min-width:280px;">
-        <div class="text-sm" style="font-weight:700; margin-bottom:6px;">الملخص التلقائي للفترة</div>
-        <textarea id="ai-pdf-draft" class="form-textarea" rows="8" style="width:100%;" placeholder="اضغط (معاينة) لإظهار ملخص تلقائي..."></textarea>
-        <button class="btn btn-sec" style="margin-top:8px;" onclick="fetchAiPeriodDraft()" id="btn-ai-draft-preview">
-          <i class="fa-solid fa-magnifying-glass"></i> معاينة
-        </button>
-      </div>
-
-      <div style="flex:1; min-width:280px;">
-        <div class="text-sm" style="font-weight:700; margin-bottom:6px;">تقرير المعلم (اختياري)</div>
-        <textarea id="ai-pdf-teacher" class="form-textarea" rows="8" style="width:100%;" placeholder="اكتب ملاحظات المعلم هنا (نقاط القوة، ما يحتاج تحسين، سلوك/مواظبة...)"></textarea>
-        <div class="text-sm text-sec" style="margin-top:6px;">سيُعاد صياغة ملاحظتك تلقائياً ثم تُدمج مع الملخص التلقائي.</div>
-      </div>
-    </div>
-
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-      <button class="btn" onclick="generateAiPeriodReportText()" id="btn-ai-text-generate">
-        <i class="fa-solid fa-wand-magic-sparkles"></i> إنشاء التقرير النصي
-      </button>
-      <button class="btn btn-sec" onclick="downloadAiReportTxt()" id="btn-ai-text-download" disabled>
-        <i class="fa-solid fa-file-arrow-down"></i> تنزيل TXT
-      </button>
-      <button class="btn btn-sec" onclick="generateAiPdfFromText()" id="btn-ai-pdf-generate" disabled>
-        <i class="fa-solid fa-file-pdf"></i> إنشاء PDF
-      </button>
-    </div>
-
-    <div class="card mt" style="padding:12px; margin-top:12px;">
-      <div class="text-sm text-sec" style="margin-bottom:6px;">النص النهائي</div>
-      <textarea id="ai-pdf-final" class="form-textarea" rows="10" style="width:100%;" placeholder="سيظهر هنا التقرير النهائي..."></textarea>
-    </div>
-
-    
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:flex-end;">
-      <div class="form-group" style="min-width:200px;">
-        <label class="form-label" style="margin-bottom:6px;">Übersetzen nach</label>
-        <select id="ai-pdf-translate-to" class="form-select" style="height:40px; max-width:200px;">
-          <option value="de">Deutsch</option>
-          <option value="ar">العربية</option>
-        </select>
-      </div>
-      <button class="btn btn-sec" onclick="translateAiFinalText()" id="btn-ai-text-translate" disabled style="height:40px;">
-        <i class="fa-solid fa-language"></i> ترجمة النص عبر Gemini
-      </button>
-    </div>
-
-<div class="text-sm text-sec" id="ai-pdf-report-status" style="min-height:20px; margin-top:10px;"></div>
-
-    <div id="ai-pdf-report-last" class="hidden" style="margin-top:10px;">
-      <a href="#" target="_blank" id="ai-pdf-drive-link" class="text-sm">Open Drive PDF</a>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
